@@ -384,13 +384,14 @@ hr.div{border:none;border-top:1px solid var(--g200);margin:15px 0}
 .catname{font-size:.55rem;font-weight:800;letter-spacing:.09em;text-transform:uppercase;color:var(--teal-d);
   background:var(--teal-l);border-radius:5px;padding:3px 7px;display:block;margin:9px 0 6px}
 .catname:first-child{margin-top:0}
-.pitem{display:flex;align-items:center;gap:7px;padding:5px 7px;border-radius:7px;border:1.5px solid transparent;
+.pitem{display:flex;align-items:center;gap:8px;padding:5px;border-radius:3px;border:1.5px solid transparent;
   background:var(--g100);margin-bottom:4px;cursor:pointer;transition:all .12s;width:100%;text-align:left}
 .pitem:hover{border-color:var(--g300)}
 .pitem.on{border-color:var(--teal);background:var(--teal-l)}
-.pitem i{width:13px;height:13px;border-radius:3px;background:var(--ic);flex-shrink:0;border:1px solid rgba(0,0,0,.18)}
-.pitem span{flex:1;font-size:.63rem;font-weight:700;line-height:1.2}
-.pitem em{font-size:.52rem;font-style:normal;color:var(--g400);font-weight:600}
+.pitem canvas.pth{width:38px;height:38px;flex-shrink:0;border-radius:2px;border:1px solid var(--g200);
+  background:var(--white);display:block}
+.pitem span{flex:1;font-size:.63rem;font-weight:700;line-height:1.25}
+.pitem em{font-size:.52rem;font-style:normal;color:var(--g400);font-weight:600;display:block}
 .rm-stat{background:var(--g100);border:1.5px solid var(--g200);border-radius:9px;padding:9px;margin-bottom:8px}
 .rm-stat b{display:block;font-size:1.25rem;font-weight:800;line-height:1.1}
 .rm-stat span{font-size:.53rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--g400)}
@@ -2311,12 +2312,46 @@ const palette=document.getElementById('palette');
 function buildPalette(){
   palette.innerHTML=CATS.map(([cat,list])=>
     `<span class="catname">${cat}</span>`+list.map(it=>
-      `<button class="pitem" data-it="${it.id}" style="--ic:${it.c}"><i></i><span>${it.name}<em style="display:block">${it.sub}</em></span></button>`
+      `<button class="pitem" data-it="${it.id}" style="--ic:${it.c}">
+        <canvas class="pth" data-th="${it.id}" width="96" height="96"></canvas>
+        <span>${it.name}<em>${it.sub}</em></span></button>`
     ).join('')).join('');
   palette.querySelectorAll('.pitem').forEach(b=>b.onclick=()=>{
     tool=tool===b.dataset.it?null:b.dataset.it;
     palette.querySelectorAll('.pitem').forEach(o=>o.classList.toggle('on',o.dataset.it===tool));
     sel=null;hud();
+  });
+  paintThumbnails();
+}
+/* Miniaturas do catálogo: reaproveita o mesmo pipeline 3D (proj/pushBox/pushCyl)
+   usado no hero e na sala, desenhando cada item uma única vez, parado, em
+   ângulo isométrico fixo — como uma foto de catálogo. */
+function paintThumbnails(){
+  const thCam={yaw:-0.72,pitch:0.5,tx:0,tz:0,dist:0};
+  palette.querySelectorAll('canvas.pth').forEach(cv=>{
+    const it=ITEM[cv.dataset.th];if(!it)return;
+    const ctx=cv.getContext('2d');if(!ctx)return;
+    const W=cv.width,H=cv.height;
+    thCam.dist=Math.max(it.rad,it.top||0.3)*2.35+0.55;
+    const savedCam={yaw:cam.yaw,pitch:cam.pitch,tx:cam.tx,tz:cam.tz,dist:cam.dist};
+    cam.yaw=thCam.yaw;cam.pitch=thCam.pitch;cam.tx=0;cam.tz=0;cam.dist=thCam.dist;
+    const savedG3=g3;g3=ctx;
+    g3.clearRect(0,0,W,H);
+    const F=H*1.05,cp3=camPos(),mid=(it.top||0.3)/2;
+    const faces=[];
+    it.parts.forEach(p=>{
+      if(p.cyl)pushCyl(faces,p.x,p.y-mid,p.z,p.r,p.l,p.ax,p.c,0,W,H,F,cp3,p.r<0.12?7:10);
+      else pushBox(faces,p.x,p.y-mid,p.z,p.w,p.h,p.d,p.c,0,W,H,F,cp3);
+    });
+    faces.sort((a,b)=>b.z-a.z);
+    for(const f of faces){
+      g3.beginPath();g3.moveTo(f.pts[0].x,f.pts[0].y);
+      for(let i=1;i<f.pts.length;i++)g3.lineTo(f.pts[i].x,f.pts[i].y);
+      g3.closePath();g3.fillStyle=f.c;g3.fill();
+      g3.strokeStyle='rgba(17,17,17,.18)';g3.lineWidth=1;g3.stroke();
+    }
+    g3=savedG3;
+    cam.yaw=savedCam.yaw;cam.pitch=savedCam.pitch;cam.tx=savedCam.tx;cam.tz=savedCam.tz;cam.dist=savedCam.dist;
   });
 }
 function snap(v){return Math.round(v*4)/4;}
