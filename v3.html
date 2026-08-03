@@ -4,56 +4,58 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Simulador de Fluxo Produtivo — Kystdesign Brasil</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=Archivo+Expanded:wght@700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --teal:#B3111F; --teal-d:#7A0C15; --teal-l:#FBEAEC;
-  --navy:#111111; --navy-2:#1C1C1C;
-  --red:#B3111F; --red-l:#FBEAEC;
-  --warn:#B8860B; --warn-l:#FBF6E8;
-  --ok:#3D6B3D;  --ok-l:#EEF4EE;
-  --g100:#F5F5F5; --g150:#EFEFEF; --g200:#E2E2E2; --g300:#C7C7C7; --g400:#999999; --g600:#4A4A4A;
+  --teal:#0E9AA7; --teal-d:#0A7681; --teal-l:#e6f6f8;
+  --navy:#0A1B2A; --navy-2:#13293D;
+  --red:#E8283C; --red-l:#fff2f4;
+  --warn:#F59E0B; --warn-l:#fffbeb;
+  --ok:#16A34A;  --ok-l:#f0fdf4;
+  --g100:#F4F5F7; --g150:#ECEEF1; --g200:#E2E5EA; --g300:#C8CDD6; --g400:#9BA3B0; --g600:#5A6270;
   --white:#fff;
   --z1:#2563EB; --z2:#A16207; --z3:#CA8A04; --z4:#15803D; --z5:#15803D; --z6:#CA8A04; --z7:#15803D; --z8:#0E7490;
-  --font:'Archivo',system-ui,-apple-system,'Segoe UI',sans-serif;
-  --headfont:'Archivo Expanded','Archivo',system-ui,sans-serif;
+  --font:'Poppins',system-ui,-apple-system,'Segoe UI',sans-serif;
   --sh-sm:0 1px 4px rgba(10,27,42,.08);
   --sh-md:0 4px 16px rgba(10,27,42,.12);
   --sh-lg:0 12px 40px rgba(10,27,42,.20);
 }
 html,body{height:100%}
-body{font-family:var(--font);background:var(--g100);color:var(--navy);font-size:13px;overflow-x:hidden;
-  letter-spacing:.005em}
-h1,h2,h3,h4,.st-title,.big-btn,.btn{font-family:var(--headfont)}
+body{font-family:var(--font);background:var(--g100);color:var(--navy);font-size:13px;overflow-x:hidden}
 button{font-family:inherit;cursor:pointer}
 :focus-visible{outline:2px solid var(--teal);outline-offset:2px}
 
-/* ══════════ LOGOS ══════════
-   Placeholders de upload removidos a pedido do cliente. Para inserir as
-   logos definitivas (empresa desenvolvedora + Kystdesign), adicione tags
-   <img> diretamente onde os comentários "LOGO AQUI" aparecem no HTML —
-   uma no cabeçalho da tela inicial (.st-logos) e uma no cabeçalho do app
-   (.hd-logos). Sugestão de estilo:
-   .st-logos img{height:32px;width:auto}
-   .hd-logos img{height:22px;width:auto;filter:brightness(0) invert(1)}
-   (o filter deixa a logo branca sobre o cabeçalho escuro, se necessário) */
+/* ══════════ SLOTS DE LOGO ══════════ */
+.logo-slot{
+  display:flex;align-items:center;justify-content:center;text-align:center;
+  border:1.5px dashed var(--g300);border-radius:8px;background:var(--white);
+  color:var(--g400);font-size:.55rem;font-weight:700;letter-spacing:.08em;
+  text-transform:uppercase;line-height:1.3;padding:4px;cursor:pointer;
+  background-size:contain;background-repeat:no-repeat;background-position:center;
+  transition:border-color .15s,color .15s;overflow:hidden;position:relative
+}
+.logo-slot:hover{border-color:var(--teal);color:var(--teal)}
+.logo-slot.filled{border-style:solid;border-color:var(--g200)}
+.logo-slot.filled span{display:none}
+.logo-slot.dark{background-color:rgba(255,255,255,.06);border-color:rgba(255,255,255,.28);color:rgba(255,255,255,.6)}
+.logo-slot.dark:hover{border-color:var(--teal);color:var(--teal)}
+.logo-slot.dark.filled{background-color:#fff;border-color:rgba(255,255,255,.3)}
 
 /* ══════════ TELA INICIAL ══════════ */
 #start{
   position:fixed;inset:0;z-index:900;overflow-y:auto;
   background:
-    radial-gradient(1100px 620px at 78% 12%,#fbeaec 0%,rgba(251,234,236,0) 62%),
-    radial-gradient(900px 700px at 8% 92%,#f2f2f2 0%,rgba(242,242,242,0) 60%),
+    radial-gradient(1100px 620px at 78% 12%,#e8f6f8 0%,rgba(232,246,248,0) 62%),
+    radial-gradient(900px 700px at 8% 92%,#eef1f5 0%,rgba(238,241,245,0) 60%),
     var(--white);
   transition:opacity .4s ease, visibility .4s
 }
 #start.hide{opacity:0;visibility:hidden;pointer-events:none}
 #start::before{
   content:'';position:absolute;inset:0;pointer-events:none;opacity:.5;
-  background-image:linear-gradient(rgba(17,17,17,.05) 1px,transparent 1px),
-                   linear-gradient(90deg,rgba(17,17,17,.05) 1px,transparent 1px);
+  background-image:linear-gradient(rgba(14,154,167,.07) 1px,transparent 1px),
+                   linear-gradient(90deg,rgba(14,154,167,.07) 1px,transparent 1px);
   background-size:46px 46px;
   -webkit-mask-image:radial-gradient(70% 60% at 50% 45%,#000,transparent 100%);
           mask-image:radial-gradient(70% 60% at 50% 45%,#000,transparent 100%)
@@ -68,8 +70,8 @@ button{font-family:inherit;cursor:pointer}
 .st-eyebrow{
   display:inline-flex;align-items:center;gap:7px;font-size:.6rem;font-weight:700;
   letter-spacing:.14em;text-transform:uppercase;color:var(--teal-d);
-  background:var(--teal-l);border-left:3px solid var(--teal);
-  padding:5px 11px;border-radius:0;margin-bottom:16px
+  background:var(--teal-l);border:1px solid rgba(14,154,167,.25);
+  padding:5px 11px;border-radius:20px;margin-bottom:16px
 }
 .st-eyebrow i{width:6px;height:6px;border-radius:50%;background:var(--teal);animation:blip 1.8s ease-in-out infinite}
 @keyframes blip{0%,100%{opacity:1}50%{opacity:.25}}
@@ -78,12 +80,12 @@ button{font-family:inherit;cursor:pointer}
 .st-sub{font-size:.9rem;font-weight:600;color:var(--g600);margin-top:12px}
 .st-text{font-size:.82rem;line-height:1.75;color:var(--g600);font-weight:500;margin-top:14px;max-width:52ch}
 .st-facts{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}
-.st-fact{background:var(--white);border:1.5px solid var(--g200);border-radius:3px;padding:9px 13px;box-shadow:var(--sh-sm)}
+.st-fact{background:var(--white);border:1.5px solid var(--g200);border-radius:10px;padding:9px 13px;box-shadow:var(--sh-sm)}
 .st-fact b{display:block;font-size:1.15rem;font-weight:800;color:var(--navy);line-height:1}
 .st-fact span{font-size:.56rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--g400)}
 .st-actions{display:flex;gap:11px;flex-wrap:wrap;margin-top:28px}
 .big-btn{
-  border:none;border-radius:5px;padding:15px 26px;font-size:.82rem;font-weight:700;
+  border:none;border-radius:11px;padding:15px 26px;font-size:.82rem;font-weight:700;
   letter-spacing:.03em;display:inline-flex;align-items:center;gap:9px;transition:all .18s
 }
 .big-btn.primary{background:var(--teal);color:#fff;box-shadow:0 6px 20px rgba(14,154,167,.35)}
@@ -94,11 +96,14 @@ button{font-family:inherit;cursor:pointer}
 .st-foot{font-size:.62rem;color:var(--g400);font-weight:500;text-align:center;line-height:1.8;border-top:1px solid var(--g200);padding-top:14px}
 
 /* ilustração ROV */
-.rov-stage{position:relative;display:flex;align-items:center;justify-content:center;
-  width:100%;max-width:460px;margin:0 auto}
-#rovHero{width:100%;max-width:460px;height:660px;display:block;cursor:grab;touch-action:none;
-  filter:drop-shadow(0 22px 30px rgba(0,0,0,.16))}
-#rovHero:active{cursor:grabbing}
+.rov-stage{position:relative;display:flex;align-items:center;justify-content:center}
+.rov-stage svg{width:100%;max-width:430px;height:auto;filter:drop-shadow(0 22px 34px rgba(10,27,42,.16))}
+.rov-float{animation:bob 5.2s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateY(0) rotate(-.5deg)}50%{transform:translateY(-13px) rotate(.5deg)}}
+.prop{transform-box:fill-box;transform-origin:center;animation:spin 1.5s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.bub{animation:rise 4.4s ease-in infinite;opacity:0}
+@keyframes rise{0%{transform:translateY(0);opacity:0}12%{opacity:.55}100%{transform:translateY(-155px);opacity:0}}
 .rov-cap{position:absolute;bottom:-6px;left:50%;transform:translateX(-50%);font-size:.56rem;font-weight:700;
   letter-spacing:.1em;text-transform:uppercase;color:var(--g400);white-space:nowrap}
 
@@ -186,7 +191,7 @@ header{
 /* ══════════ ÁREA PRINCIPAL ══════════ */
 .main{padding:14px 16px 30px;display:flex;flex-direction:column;gap:11px;overflow:auto}
 .metrics{display:flex;gap:8px;flex-wrap:wrap}
-.pill{background:var(--white);border:1.5px solid var(--g200);border-radius:3px;padding:8px 12px;min-width:96px;box-shadow:var(--sh-sm)}
+.pill{background:var(--white);border:1.5px solid var(--g200);border-radius:9px;padding:8px 12px;min-width:96px;box-shadow:var(--sh-sm)}
 .pill b{font-size:1.02rem;font-weight:800;color:var(--navy);line-height:1.15;display:block}
 .pill b u{text-decoration:none;font-size:.6rem;color:var(--g400);margin-left:2px;font-weight:600}
 .pill span{font-size:.55rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--g400)}
@@ -194,12 +199,12 @@ header{
 .pill.warn{border-color:var(--warn);background:var(--warn-l)} .pill.warn b{color:#b45309}
 .pill.ok{border-color:var(--ok);background:var(--ok-l)} .pill.ok b{color:var(--ok)}
 .alerts{display:flex;gap:5px;flex-wrap:wrap;min-height:22px}
-.chip{font-size:.63rem;font-weight:700;padding:3px 9px;border-radius:2px;animation:pop .2s ease}
+.chip{font-size:.63rem;font-weight:700;padding:3px 9px;border-radius:20px;animation:pop .2s ease}
 .chip.red{background:var(--red-l);color:#9b1c2c;border:1px solid #fca5b0}
 .chip.yellow{background:var(--warn-l);color:#92400e;border:1px solid #fcd34d}
 .chip.green{background:var(--ok-l);color:#14532d;border:1px solid #86efac}
 @keyframes pop{from{transform:scale(.85);opacity:0}to{transform:scale(1);opacity:1}}
-.panel{background:var(--white);border:1.5px solid var(--g200);border-radius:3px;box-shadow:var(--sh-sm)}
+.panel{background:var(--white);border:1.5px solid var(--g200);border-radius:11px;box-shadow:var(--sh-sm)}
 .panel>h3{font-size:.66rem;font-weight:800;letter-spacing:.05em;padding:11px 14px;border-bottom:1.5px solid var(--g200);
   display:flex;justify-content:space-between;align-items:center}
 .panel>h3 small{font-size:.58rem;font-weight:600;color:var(--g400)}
@@ -208,12 +213,12 @@ header{
 
 /* ══════════ PLANTA ══════════ */
 .floor-pad{padding:12px}
-.floor{position:relative;width:100%;height:600px;background:#fbfcfd;border:1.5px solid var(--g200);border-radius:3px;
+.floor{position:relative;width:100%;height:600px;background:#fbfcfd;border:1.5px solid var(--g200);border-radius:8px;
   background-image:linear-gradient(rgba(10,27,42,.045) 1px,transparent 1px),
                    linear-gradient(90deg,rgba(10,27,42,.045) 1px,transparent 1px);
   background-size:32px 32px;overflow:hidden}
 @media(max-width:760px){.floor{height:840px}}
-.zone{position:absolute;background:var(--white);border:2px solid var(--g200);border-radius:2px;
+.zone{position:absolute;background:var(--white);border:2px solid var(--g200);border-radius:10px;
   padding:6px 7px;display:flex;flex-direction:column;gap:4px;overflow:hidden;
   transition:border-color .25s,background .25s,box-shadow .25s;box-shadow:var(--sh-sm)}
 .zone.ok{border-color:#bfe3cb}
@@ -222,7 +227,7 @@ header{
 @keyframes beat{0%,100%{box-shadow:0 0 0 3px rgba(232,40,60,.14)}50%{box-shadow:0 0 0 8px rgba(232,40,60,.03)}}
 .zone.idle{opacity:.55;border-style:dashed}
 .zhead{display:flex;align-items:center;gap:6px;min-height:17px}
-.znum{font-size:.6rem;font-weight:800;color:#fff;background:var(--zc);border-radius:2px;padding:2px 6px;line-height:1.15}
+.znum{font-size:.6rem;font-weight:800;color:#fff;background:var(--zc);border-radius:5px;padding:2px 6px;line-height:1.15}
 .ztitle{font-size:.66rem;font-weight:700;color:var(--navy);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .zq{margin-left:auto;font-size:.55rem;font-weight:600;color:var(--g400);white-space:nowrap}
 .zq b{color:var(--warn);font-size:.68rem;font-weight:800}
@@ -239,15 +244,15 @@ header{
 .zone.tiny .ztitle{font-size:.54rem;width:100%;line-height:1.2}
 .zone.tiny .zq{margin-left:0;font-size:.5rem}
 .zone.tiny .rl{font-size:.48rem}
-.gate{position:absolute;border-radius:4px;background:repeating-linear-gradient(135deg,#141414 0 6px,#B3111F 6px 12px);
-  border:1.5px solid #141414;box-shadow:0 1px 4px rgba(0,0,0,.30);transition:box-shadow .2s,transform .2s}
-.gate.act{box-shadow:0 0 0 7px rgba(179,17,31,.25),0 2px 10px rgba(0,0,0,.55);transform:scale(1.06)}
-.gate-lbl{position:absolute;font-size:.5rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:#141414;white-space:nowrap}
-.office{position:absolute;border:2px solid var(--g300);border-radius:2px;background:repeating-linear-gradient(45deg,rgba(10,27,42,.035) 0 8px,transparent 8px 16px);
+.gate{position:absolute;border-radius:4px;background:linear-gradient(180deg,#F63BA6,#D6188A);
+  border:1.5px solid #A81069;box-shadow:0 1px 4px rgba(214,24,138,.35);transition:box-shadow .2s,transform .2s}
+.gate.act{box-shadow:0 0 0 7px rgba(246,59,166,.25),0 2px 10px rgba(214,24,138,.6);transform:scale(1.06)}
+.gate-lbl{position:absolute;font-size:.5rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:#C21680;white-space:nowrap}
+.office{position:absolute;border:2px solid var(--g300);border-radius:10px;background:repeating-linear-gradient(45deg,rgba(10,27,42,.035) 0 8px,transparent 8px 16px);
   display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;text-align:center}
 .office b{font-size:.72rem;font-weight:800;color:var(--g400);letter-spacing:.06em;text-transform:uppercase}
 .office span{font-size:.55rem;font-weight:600;color:var(--g400)}
-.dead{position:absolute;border:2px dashed var(--g300);border-radius:2px;
+.dead{position:absolute;border:2px dashed #f0b7bd;border-radius:10px;
   background:repeating-linear-gradient(45deg,rgba(232,40,60,.05) 0 7px,transparent 7px 14px);
   display:flex;align-items:center;justify-content:center;text-align:center;
   font-size:.62rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:#c98089}
@@ -281,26 +286,26 @@ canvas{display:block;width:100%;height:128px}
 .ov{position:fixed;inset:0;background:rgba(10,27,42,.55);z-index:800;display:flex;align-items:center;
   justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity .2s}
 .ov.vis{opacity:1;pointer-events:all}
-.modal{background:#fff;border-radius:4px;width:100%;max-width:660px;max-height:88vh;overflow-y:auto;
+.modal{background:#fff;border-radius:15px;width:100%;max-width:660px;max-height:88vh;overflow-y:auto;
   box-shadow:var(--sh-lg);transform:translateY(14px);transition:transform .22s}
 .ov.vis .modal{transform:translateY(0)}
 .mh{display:flex;align-items:center;justify-content:space-between;padding:17px 21px 13px;
   border-bottom:1.5px solid var(--g200);position:sticky;top:0;background:#fff;z-index:1}
 .mh h2{font-size:.94rem;font-weight:800}
-.mc{width:29px;height:29px;border-radius:3px;border:none;background:var(--g100);color:var(--g600);font-size:.8rem;
+.mc{width:29px;height:29px;border-radius:8px;border:none;background:var(--g100);color:var(--g600);font-size:.8rem;
   display:flex;align-items:center;justify-content:center;font-family:var(--font)}
 .mc:hover{background:var(--red);color:#fff}
 .mb{padding:17px 21px 22px}
-.intro{background:var(--teal-l);border-left:3px solid var(--teal);
-  border-radius:0;padding:13px 16px;font-size:.74rem;line-height:1.65;color:var(--g600);font-weight:500;margin-bottom:17px}
+.intro{background:linear-gradient(135deg,var(--teal-l),#f0fdf4);border:1.5px solid rgba(14,154,167,.2);
+  border-radius:11px;padding:13px 16px;font-size:.74rem;line-height:1.65;color:var(--g600);font-weight:500;margin-bottom:17px}
 .step{display:flex;gap:13px;margin-bottom:15px;align-items:flex-start}
-.sn{width:27px;height:27px;border-radius:3px;background:linear-gradient(135deg,var(--teal),var(--teal-d));color:#fff;
+.sn{width:27px;height:27px;border-radius:50%;background:linear-gradient(135deg,var(--teal),var(--teal-d));color:#fff;
   display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.7rem;flex-shrink:0;margin-top:1px}
 .sb h4{font-size:.78rem;font-weight:700;margin-bottom:3px}
 .sb p{font-size:.7rem;color:var(--g600);line-height:1.6;font-weight:500}
-.tip{margin-top:6px;background:var(--g100);border-left:3px solid var(--teal);padding:6px 10px;border-radius:0;
+.tip{margin-top:6px;background:var(--g100);border-left:3px solid var(--teal);padding:6px 10px;border-radius:0 7px 7px 0;
   font-size:.66rem;color:var(--g600);font-weight:500;line-height:1.55}
-.flowmap{background:var(--g100);border:1.5px solid var(--g200);border-radius:2px;padding:13px;font-size:.68rem;
+.flowmap{background:var(--g100);border:1.5px solid var(--g200);border-radius:10px;padding:13px;font-size:.68rem;
   line-height:1.9;color:var(--g600);font-weight:600;margin-top:6px}
 .flowmap b{color:var(--navy);font-weight:800}
 hr.div{border:none;border-top:1px solid var(--g200);margin:15px 0}
@@ -413,10 +418,10 @@ hr.div{border:none;border-top:1px solid var(--g200);margin:15px 0}
  <div class="st-inner">
 
   <div class="st-logos">
-    <!-- LOGO AQUI: <img src="logo-empresa.svg" alt="Logo da empresa"> -->
-    <!-- LOGO AQUI: <img src="logo-kystdesign.svg" alt="Logo Kystdesign"> -->
+    <div class="logo-slot" data-logo="empresa"><span>Logo da<br>empresa</span></div>
+    <div class="logo-slot" data-logo="kyst"><span>Logo<br>Kystdesign</span></div>
     <div class="sep"></div>
-
+    <div class="st-tagline">Clique nos quadros para carregar as logos</div>
   </div>
 
   <div class="st-grid">
@@ -425,11 +430,11 @@ hr.div{border:none;border-top:1px solid var(--g200);margin:15px 0}
       <h1 class="st-title">Simulador de<br><em>fluxo produtivo</em></h1>
       <p class="st-sub">Fábrica de ROVs — Kystdesign Brasil</p>
       <p class="st-text">
-        Um modelo da linha completa, do recebimento de materiais ao teste de aceitação no tanque externo,
+        Um modelo da linha completa, do recebimento de materiais ao teste de aceitação no tanque externo —
         incluindo a área suja, onde a soldagem acontece antes e depois das montagens. Ajuste o tempo de cada
         etapa, o número de postos e o regime de trabalho, e veja na hora onde a produção trava, quanto tempo
         um ROV leva para atravessar a fábrica e quantas unidades o galpão entrega por ano. Na segunda aba,
-        reposicione as zonas na planta e entre em 3D, em cada sala ou no galpão inteiro, para mobiliar
+        reposicione as zonas na planta e entre em 3D — em cada sala ou no galpão inteiro — para mobiliar
         bancadas, estantes, pórticos e sistemas de içamento e soltar bonecos para ver a movimentação interna.
       </p>
       <div class="st-facts">
@@ -446,7 +451,74 @@ hr.div{border:none;border-top:1px solid var(--g200);margin:15px 0}
     </div>
 
     <div class="rov-stage">
-      <canvas id="rovHero" aria-label="Renderização 3D giratória do sistema ROV"></canvas>
+      <!-- Ilustração do ROV. Para trocar por uma foto real, substitua este <svg> por <img src="..."> -->
+      <svg viewBox="0 0 400 340" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ilustração de um ROV de trabalho">
+        <defs>
+          <linearGradient id="water" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#e8f6f8" stop-opacity=".9"/>
+            <stop offset="100%" stop-color="#e8f6f8" stop-opacity="0"/>
+          </linearGradient>
+          <linearGradient id="yel" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#FFD65C"/><stop offset="100%" stop-color="#E9B01F"/>
+          </linearGradient>
+        </defs>
+
+        <ellipse cx="200" cy="300" rx="150" ry="26" fill="url(#water)"/>
+
+        <!-- umbilical -->
+        <path d="M200 0 C 176 26, 224 44, 200 62" fill="none" stroke="#0A1B2A" stroke-width="7" stroke-linecap="round" opacity=".85"/>
+
+        <g class="rov-float">
+          <!-- bolhas -->
+          <circle class="bub" cx="82"  cy="250" r="5" fill="#0E9AA7" style="animation-delay:.2s"/>
+          <circle class="bub" cx="104" cy="262" r="3.4" fill="#0E9AA7" style="animation-delay:1.5s"/>
+          <circle class="bub" cx="318" cy="256" r="4.4" fill="#0E9AA7" style="animation-delay:2.7s"/>
+
+          <!-- bloco de flutuação -->
+          <rect x="62" y="56" width="276" height="56" rx="15" fill="url(#yel)" stroke="#0A1B2A" stroke-width="5"/>
+          <path d="M104 62 v44 M160 62 v44 M240 62 v44 M296 62 v44" stroke="#0A1B2A" stroke-width="2.5" opacity=".28"/>
+
+          <!-- chassi -->
+          <rect x="56" y="112" width="288" height="128" rx="12" fill="#F7F9FB" stroke="#0A1B2A" stroke-width="5"/>
+          <path d="M56 150 h288 M56 208 h288 M132 112 v128 M268 112 v128" stroke="#0A1B2A" stroke-width="2.5" opacity=".18"/>
+
+          <!-- cilindros de eletrônica -->
+          <rect x="146" y="120" width="108" height="26" rx="12" fill="#C8CDD6" stroke="#0A1B2A" stroke-width="3.5"/>
+          <rect x="66"  y="158" width="60"  height="42" rx="9"  fill="#DDE3E9" stroke="#0A1B2A" stroke-width="3.5"/>
+          <rect x="274" y="158" width="60"  height="42" rx="9"  fill="#DDE3E9" stroke="#0A1B2A" stroke-width="3.5"/>
+
+          <!-- câmera -->
+          <circle cx="200" cy="181" r="24" fill="#0A1B2A"/>
+          <circle cx="200" cy="181" r="15" fill="#0E9AA7"/>
+          <circle cx="194" cy="175" r="4.5" fill="#fff" opacity=".85"/>
+
+          <!-- propulsores laterais -->
+          <g>
+            <circle cx="56" cy="240" r="29" fill="#EDF1F5" stroke="#0A1B2A" stroke-width="5"/>
+            <g class="prop"><path d="M56 222 L64 240 L56 258 L48 240 Z" fill="#0A1B2A"/>
+              <path d="M38 240 L56 233 L74 240 L56 247 Z" fill="#0A1B2A" opacity=".65"/></g>
+          </g>
+          <g>
+            <circle cx="344" cy="240" r="29" fill="#EDF1F5" stroke="#0A1B2A" stroke-width="5"/>
+            <g class="prop" style="animation-duration:1.9s"><path d="M344 222 L352 240 L344 258 L336 240 Z" fill="#0A1B2A"/>
+              <path d="M326 240 L344 233 L362 240 L344 247 Z" fill="#0A1B2A" opacity=".65"/></g>
+          </g>
+
+          <!-- faróis -->
+          <circle cx="152" cy="228" r="11" fill="#FFF4CC" stroke="#0A1B2A" stroke-width="3.5"/>
+          <circle cx="248" cy="228" r="11" fill="#FFF4CC" stroke="#0A1B2A" stroke-width="3.5"/>
+
+          <!-- manipuladores -->
+          <path d="M150 240 L138 274 L118 288" fill="none" stroke="#0A1B2A" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M118 288 l-13 -7 M118 288 l-3 14" fill="none" stroke="#0A1B2A" stroke-width="6" stroke-linecap="round"/>
+          <path d="M250 240 L262 274 L282 288" fill="none" stroke="#0A1B2A" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M282 288 l13 -7 M282 288 l3 14" fill="none" stroke="#0A1B2A" stroke-width="6" stroke-linecap="round"/>
+
+          <!-- patins -->
+          <rect x="76" y="240" width="248" height="15" rx="7" fill="#0A1B2A"/>
+        </g>
+      </svg>
+      <div class="rov-cap">Sistema ROV · unidade de referência do modelo</div>
     </div>
   </div>
 
@@ -462,8 +534,8 @@ hr.div{border:none;border-top:1px solid var(--g200);margin:15px 0}
 <div id="app">
 <header>
   <div class="hd-logos">
-    <!-- LOGO AQUI: <img src="logo-empresa.svg" alt="Logo da empresa"> -->
-    <!-- LOGO AQUI: <img src="logo-kystdesign.svg" alt="Logo Kystdesign"> -->
+    <div class="logo-slot dark" data-logo="empresa"><span>Sua<br>logo</span></div>
+    <div class="logo-slot dark" data-logo="kyst"><span>Logo<br>Kyst</span></div>
   </div>
   <div class="hd-sep"></div>
   <div class="hd-name">Simulador de fluxo produtivo<span>Kystdesign Brasil · Navegantes/SC</span></div>
@@ -648,19 +720,12 @@ hr.div{border:none;border-top:1px solid var(--g200);margin:15px 0}
       </div>
 
       <div class="step"><div class="sn">1</div><div class="sb">
-        <h4>Explore o modelo do ROV na tela inicial</h4>
-        <p>A peça na tela de abertura é uma renderização 3D do sistema, não uma imagem estática — arraste com
-           o botão do mouse ou o dedo para girá-la e inspecionar o casco, os túneis de propulsão e o
-           manipulador antes de entrar no simulador.</p>
-      </div></div>
-
-      <div class="step"><div class="sn">2</div><div class="sb">
         <h4>Escolha um cenário</h4>
         <p>Viável e Ideal correspondem aos dois cenários pedidos no parecer técnico. Noruega reproduz a matriz
            como referência de comparação. O cenário define tempos, número de postos e regime de trabalho.</p>
       </div></div>
 
-      <div class="step"><div class="sn">3</div><div class="sb">
+      <div class="step"><div class="sn">2</div><div class="sb">
         <h4>Ajuste os tempos pelas barras</h4>
         <p>Clique em qualquer ponto da barra de uma etapa para definir quantas horas ela consome por ROV.
            A montagem tem barras separadas para TMS, ROV, flutuador e integração final — é onde as três
@@ -670,7 +735,7 @@ hr.div{border:none;border-top:1px solid var(--g200);margin:15px 0}
            testa "4 contra 8 estações de eletrônica" ou "um contra dois dispositivos de içamento".</div>
       </div></div>
 
-      <div class="step"><div class="sn">4</div><div class="sb">
+      <div class="step"><div class="sn">3</div><div class="sb">
         <h4>Rode e observe a planta</h4>
         <p>A zona fica vermelha quando passa de 85 % de utilização ou acumula três ordens na fila, e recebe a
            tarja gargalo. Zonas tracejadas estão paradas por falta de material — o problema está antes delas.
@@ -680,13 +745,13 @@ hr.div{border:none;border-top:1px solid var(--g200);margin:15px 0}
            por isso ela vira gargalo mais cedo do que a utilização isolada de cada passagem sugere.</div>
       </div></div>
 
-      <div class="step"><div class="sn">5</div><div class="sb">
+      <div class="step"><div class="sn">4</div><div class="sb">
         <h4>Leia os indicadores</h4>
         <p>Capacidade anual é a projeção de ROVs por ano no ritmo atual. Lead time é o tempo que um ROV leva
            da entrada à aprovação no FAT. Tempo entre saídas é o intervalo médio entre duas unidades prontas.</p>
       </div></div>
 
-      <div class="step"><div class="sn">6</div><div class="sb">
+      <div class="step"><div class="sn">5</div><div class="sb">
         <h4>Mexa no layout na segunda aba</h4>
         <p>Arraste as zonas pela planta, solte uma sobre a outra para trocá-las de lugar e acompanhe o índice
            de transporte — a soma das distâncias entre zonas ponderada pelo número de movimentações de material.
@@ -722,7 +787,7 @@ hr.div{border:none;border-top:1px solid var(--g200);margin:15px 0}
 "use strict";
 
 /* ═══════════════ 1. MODELO DA PLANTA ═══════════════ */
-const C={z1:'#3A5578',z2:'#8A6A2E',z3:'#9C7A3A',z4:'#3D6B45',z5:'#525C68',z6:'#8E6B34',z7:'#7A362B',z8:'#2E6B75'};
+const C={z1:'#2563EB',z2:'#A16207',z3:'#CA8A04',z4:'#15803D',z5:'#15803D',z6:'#CA8A04',z7:'#2E6FA8',z8:'#0E7490'};
 
 /* estações = recursos físicos (postos, filas) */
 const ST={
@@ -1244,18 +1309,34 @@ Object.keys(PRESETS).forEach(name=>{
   presetHost.appendChild(b);
 });
 
-/* As logos são inseridas diretamente no HTML (ver comentários "LOGO AQUI"
-   em .st-logos e .hd-logos) — não há mais upload dinâmico pelo usuário. */
+/* logos carregáveis */
+document.querySelectorAll('[data-logo]').forEach(slot=>{
+  slot.addEventListener('click',()=>{
+    const inp=document.createElement('input');
+    inp.type='file';inp.accept='image/*';
+    inp.onchange=()=>{
+      const f=inp.files&&inp.files[0];if(!f)return;
+      const r=new FileReader();
+      r.onload=()=>{
+        const key=slot.dataset.logo;
+        document.querySelectorAll(`[data-logo="${key}"]`).forEach(el=>{
+          el.style.backgroundImage=`url(${r.result})`;el.classList.add('filled');});
+      };
+      r.readAsDataURL(f);
+    };
+    inp.click();
+  });
+});
 
 /* tela inicial e modal */
 const startEl=document.getElementById('start'),appEl=document.getElementById('app');
 document.getElementById('go').onclick=()=>{
-  startEl.classList.add('hide');appEl.classList.add('on');heroStop();
+  startEl.classList.add('hide');appEl.classList.add('on');
   setTimeout(()=>{renderSlots();drawChart();render();},60);
 };
 document.getElementById('btnHome').onclick=()=>{
   SIM.running=false;btnPlay.textContent='▶ Iniciar';btnPlay.className='btn btn-primary';
-  appEl.classList.remove('on');startEl.classList.remove('hide');heroPlay();
+  appEl.classList.remove('on');startEl.classList.remove('hide');
 };
 const howto=document.getElementById('howtoModal');
 const openHow=()=>howto.classList.add('vis');
@@ -1460,7 +1541,6 @@ document.getElementById('layApply').onclick=()=>{
 
 /* ═══════════════ 11. CATÁLOGO DE ITENS ═══════════════ */
 const B=(x,y,z,w,h,d,c)=>({x,y,z,w,h,d,c});
-const CY=(x,y,z,r,l,ax,c)=>({x,y,z,r,l,ax,c,cyl:true});
 function shelf(w,d,h,levels,c1,c2){
   const p=[];const post=0.07;
   [[-1,-1],[1,-1],[-1,1],[1,1]].forEach(([sx,sz])=>p.push(B(sx*(w/2-post),h/2,sz*(d/2-post),post*2,h,post*2,c2)));
@@ -1471,315 +1551,138 @@ const ITEM={};
 const CATS=[
  ['Mobiliário',[
   {id:'bancada',name:'Bancada de trabalho',sub:'2,0 × 0,9 m',w:2.0,d:0.9,c:'#C9A227',parts:[
-    B(0,0.87,0,2.0,0.07,0.9,'#D8B45A'),B(0,0.90,0,1.94,0.02,0.84,'#E4C77A'),
-    B(0,1.12,-0.42,2.0,0.42,0.05,'#A8B4BF'),B(0,1.30,-0.40,1.9,0.05,0.10,'#8E9BA7'),
-    B(-0.55,0.60,0,0.80,0.48,0.80,'#9AA7B4'),B(-0.55,0.60,0.41,0.76,0.14,0.02,'#7B8896'),
-    B(-0.55,0.78,0.41,0.76,0.14,0.02,'#7B8896'),
-    B(0.92,0.43,-0.37,0.07,0.87,0.07,'#7B8896'),B(0.92,0.43,0.37,0.07,0.87,0.07,'#7B8896'),
-    B(-0.92,0.43,-0.37,0.07,0.87,0.07,'#7B8896'),B(-0.92,0.43,0.37,0.07,0.87,0.07,'#7B8896'),
-    B(0.55,1.35,-0.30,0.50,0.34,0.04,'#2F3A45'),B(0.55,1.35,-0.28,0.44,0.28,0.01,'#0E9AA7'),
-    B(0.55,1.14,-0.30,0.10,0.10,0.08,'#4A5560')]},
+    B(0,0.87,0,2.0,0.07,0.9,'#D8B45A'),B(0,1.12,-0.42,2.0,0.42,0.05,'#A8B4BF'),
+    B(-0.92,0.43,-0.37,0.07,0.87,0.07,'#7B8896'),B(0.92,0.43,-0.37,0.07,0.87,0.07,'#7B8896'),
+    B(-0.92,0.43,0.37,0.07,0.87,0.07,'#7B8896'),B(0.92,0.43,0.37,0.07,0.87,0.07,'#7B8896')]},
   {id:'mesa',name:'Mesa',sub:'1,4 × 0,8 m',w:1.4,d:0.8,c:'#B98B4E',parts:[
-    B(0,0.74,0,1.4,0.06,0.8,'#C79A5E'),B(0,0.71,0,1.3,0.04,0.7,'#A87B44'),
+    B(0,0.74,0,1.4,0.06,0.8,'#C79A5E'),
     B(-0.62,0.36,-0.32,0.06,0.72,0.06,'#7B8896'),B(0.62,0.36,-0.32,0.06,0.72,0.06,'#7B8896'),
-    B(-0.62,0.36,0.32,0.06,0.72,0.06,'#7B8896'),B(0.62,0.36,0.32,0.06,0.72,0.06,'#7B8896'),
-    B(0,0.30,0,1.3,0.04,0.6,'#8E9BA7')]},
+    B(-0.62,0.36,0.32,0.06,0.72,0.06,'#7B8896'),B(0.62,0.36,0.32,0.06,0.72,0.06,'#7B8896')]},
   {id:'cadeira',name:'Cadeira',sub:'0,5 m',w:0.5,d:0.5,c:'#2F4858',parts:[
-    B(0,0.46,0,0.46,0.08,0.46,'#33506B'),B(0,0.70,-0.20,0.44,0.44,0.07,'#33506B'),
-    B(0,0.90,-0.20,0.44,0.06,0.09,'#28405A'),
-    CY(0,0.24,0,0.04,0.44,'y','#9AA7B4'),B(0,0.05,0,0.44,0.05,0.44,'#6B7885'),
-    CY(-0.20,0.03,-0.18,0.035,0.05,'y','#3C4650'),CY(0.20,0.03,-0.18,0.035,0.05,'y','#3C4650'),
-    CY(-0.20,0.03,0.18,0.035,0.05,'y','#3C4650'),CY(0.20,0.03,0.18,0.035,0.05,'y','#3C4650')]},
+    B(0,0.45,0,0.46,0.07,0.46,'#33506B'),B(0,0.68,-0.2,0.46,0.42,0.06,'#33506B'),
+    B(0,0.21,0,0.09,0.42,0.09,'#9AA7B4'),B(0,0.03,0,0.42,0.06,0.42,'#6B7885')]},
   {id:'armario',name:'Armário de ferramentas',sub:'1,0 × 0,5 m',w:1.0,d:0.5,c:'#4A6572',parts:[
-    B(0,1.0,0,1.0,2.0,0.5,'#557184'),B(0,1.0,0.26,0.94,1.9,0.02,'#43606F'),
-    B(0,0.45,0.28,0.90,0.20,0.02,'#3A5464'),B(0,0.75,0.28,0.90,0.20,0.02,'#3A5464'),
-    B(0,1.05,0.28,0.90,0.20,0.02,'#3A5464'),B(0,1.35,0.28,0.90,0.20,0.02,'#3A5464'),
-    B(0,1.95,0,1.04,0.06,0.54,'#3A5464'),B(0.30,1.05,0.30,0.16,0.03,0.03,'#C8CDD6')]},
+    B(0,1.0,0,1.0,2.0,0.5,'#557184'),B(0,1.0,0.26,0.9,1.9,0.03,'#43606F'),B(0.3,1.0,0.29,0.05,0.3,0.03,'#C8CDD6')]},
   {id:'bsolda',name:'Bancada de solda',sub:'2,0 × 0,9 m · área suja',w:2.0,d:0.9,c:'#3C4650',parts:[
-    B(0,0.85,0,2.0,0.10,0.9,'#5A646E'),B(0,0.40,0,1.9,0.80,0.85,'#39424B'),
-    B(0,1.75,-0.44,2.1,1.75,0.05,'#C8541E'),B(0,2.60,-0.44,2.14,0.08,0.09,'#7B8896'),
-    B(0.70,1.15,0.10,0.30,0.50,0.30,'#8A939C'),B(0.70,1.44,0.10,0.10,0.10,0.10,'#2B3037'),
-    CY(-0.72,1.10,0.16,0.10,0.40,'y','#1F6E4C'),CY(-0.48,1.10,0.16,0.10,0.40,'y','#B92E2E'),
-    B(0,0.95,0.30,0.60,0.06,0.30,'#C8541E')]},
+    B(0,0.85,0,2.0,0.1,0.9,'#4B5560'),B(0,0.4,0,1.9,0.8,0.85,'#39424B'),
+    B(0,1.75,-0.44,2.1,1.75,0.05,'#C8541E'),B(0,1.1,0.2,0.35,0.4,0.3,'#8A939C')]},
   {id:'inspec',name:'Mesa de inspeção CQ',sub:'1,6 × 0,8 m',w:1.6,d:0.8,c:'#E4E9ED',parts:[
-    B(0,0.90,0,1.6,0.07,0.8,'#EDF1F4'),B(0,0.45,0,1.5,0.85,0.7,'#C8CDD6'),
-    B(0,0.94,0,1.0,0.02,0.5,'#D3DBE1'),
-    CY(-0.60,1.45,-0.30,0.03,1.10,'y','#7B8896'),
-    B(-0.30,2.02,-0.30,0.70,0.10,0.25,'#F5D97B'),
-    B(0.50,1.02,0.10,0.26,0.18,0.20,'#2F3A45'),B(0.50,1.13,0.10,0.20,0.04,0.14,'#0E9AA7')]},
+    B(0,0.9,0,1.6,0.07,0.8,'#EDF1F4'),B(0,0.45,0,1.5,0.85,0.7,'#C8CDD6'),
+    B(-0.6,1.5,-0.3,0.05,1.15,0.05,'#7B8896'),B(-0.3,2.02,-0.3,0.7,0.1,0.25,'#F5D97B')]},
  ]],
  ['Armazenagem',[
-  {id:'estante',name:'Estante de supermercado',sub:'2,0 × 0,6 × 2,0 m',w:2.0,d:0.6,c:'#1D6FA5',parts:[
-    ...shelf(2.0,0.6,2.0,4,'#D7DEE4','#1D6FA5'),
-    B(-0.65,0.60,0.06,0.44,0.26,0.40,'#2C8CC9'),B(-0.10,0.60,0.06,0.44,0.26,0.40,'#3FA45E'),
-    B(0.45,0.60,0.06,0.44,0.26,0.40,'#E0A82E'),
-    B(-0.65,1.10,0.06,0.44,0.26,0.40,'#E0A82E'),B(-0.10,1.10,0.06,0.44,0.26,0.40,'#2C8CC9'),
-    B(0.45,1.10,0.06,0.44,0.26,0.40,'#C8541E'),
-    B(-0.30,1.60,0.06,0.44,0.26,0.40,'#3FA45E'),B(0.35,1.60,0.06,0.44,0.26,0.40,'#2C8CC9'),
-    B(0,1.98,-0.20,1.9,0.10,0.03,'#0E5A88')]},
-  {id:'portapalete',name:'Porta-paletes',sub:'2,7 × 1,1 × 4,0 m',w:2.7,d:1.1,c:'#E07B27',parts:[
-    ...shelf(2.7,1.1,4.0,3,'#E07B27','#2C6BAF'),
-    B(-0.62,1.42,0,1.15,0.10,0.95,'#B5854A'),B(0.62,1.42,0,1.15,0.10,0.95,'#B5854A'),
-    B(-0.62,1.78,0,1.00,0.62,0.80,'#B58A5A'),B(0.62,1.75,0,0.95,0.55,0.78,'#8FA3B4'),
-    B(-0.62,2.76,0,1.15,0.10,0.95,'#B5854A'),B(-0.62,3.10,0,1.00,0.58,0.82,'#3FA45E'),
-    B(0.62,2.76,0,1.15,0.10,0.95,'#B5854A'),
-    B(0,0.10,0,2.7,0.14,1.1,'#2C6BAF')]},
+  {id:'estante',name:'Estante de supermercado',sub:'2,0 × 0,6 × 2,0 m',w:2.0,d:0.6,c:'#1D6FA5',parts:shelf(2.0,0.6,2.0,4,'#D7DEE4','#1D6FA5')},
+  {id:'portapalete',name:'Porta-paletes',sub:'2,7 × 1,1 × 4,0 m',w:2.7,d:1.1,c:'#E07B27',parts:shelf(2.7,1.1,4.0,3,'#E07B27','#2C6BAF')},
   {id:'kardex',name:'Armário Kardex',sub:'2,4 × 0,9 × 2,6 m',w:2.4,d:0.9,c:'#6E7B87',parts:[
-    B(0,1.30,0,2.4,2.6,0.9,'#83909C'),
-    B(0,1.75,0.46,2.28,1.55,0.03,'#5C6874'),
-    B(0,0.62,0.47,2.10,0.55,0.04,'#2E3A45'),B(0,0.62,0.50,1.90,0.42,0.02,'#48555F'),
-    B(0.86,2.12,0.48,0.52,0.36,0.04,'#0E9AA7'),B(0.86,2.12,0.51,0.42,0.24,0.02,'#0A7681'),
-    B(-0.60,2.12,0.48,0.30,0.10,0.04,'#16A34A'),
-    B(0,2.62,0,2.46,0.08,0.96,'#5C6874'),B(0,0.06,0,2.46,0.12,0.96,'#4A5560')]},
+    B(0,1.3,0,2.4,2.6,0.9,'#77848F'),B(0,1.55,0.47,2.2,1.9,0.04,'#5C6874'),
+    B(0,0.5,0.48,2.0,0.5,0.05,'#2E3A45'),B(0.85,2.15,0.49,0.5,0.35,0.04,'#0E9AA7')]},
   {id:'palete',name:'Palete',sub:'1,2 × 1,0 m',w:1.2,d:1.0,c:'#B5854A',parts:[
-    B(0,0.05,-0.42,1.2,0.10,0.16,'#C08F52'),B(0,0.05,0,1.2,0.10,0.16,'#C08F52'),
-    B(0,0.05,0.42,1.2,0.10,0.16,'#C08F52'),
-    B(-0.52,0.13,0,0.16,0.06,1.0,'#A87B44'),B(0,0.13,0,0.16,0.06,1.0,'#A87B44'),
-    B(0.52,0.13,0,0.16,0.06,1.0,'#A87B44'),
-    B(0,0.18,0,1.2,0.05,1.0,'#C99A5C')]},
+    B(0,0.05,0,1.2,0.1,1.0,'#C08F52'),B(0,0.14,0,1.2,0.08,0.16,'#A87B44'),
+    B(0,0.14,-0.42,1.2,0.08,0.16,'#A87B44'),B(0,0.14,0.42,1.2,0.08,0.16,'#A87B44')]},
   {id:'caixa',name:'Caixa de componentes',sub:'0,6 × 0,4 m',w:0.6,d:0.4,c:'#3E7CB1',parts:[
-    B(0,0.20,0,0.6,0.40,0.4,'#4A88BD'),B(0,0.41,0,0.62,0.04,0.42,'#2E6796'),
-    B(0,0.30,0.21,0.30,0.12,0.01,'#F4F5F7')]},
+    B(0,0.2,0,0.6,0.4,0.4,'#4A88BD'),B(0,0.41,0,0.62,0.04,0.42,'#2E6796')]},
   {id:'gaiola',name:'Contentor metálico',sub:'1,2 × 1,0 m',w:1.2,d:1.0,c:'#8A939C',parts:[
-    B(0,0.10,0,1.2,0.20,1.0,'#6E7B87'),
-    B(0,0.60,-0.48,1.2,0.90,0.05,'#9AA7B4'),B(0,0.60,0.48,1.2,0.90,0.05,'#9AA7B4'),
-    B(-0.58,0.60,0,0.05,0.90,1.0,'#9AA7B4'),B(0.58,0.60,0,0.05,0.90,1.0,'#9AA7B4'),
-    B(0,0.35,0,1.16,0.04,0.96,'#7E8892'),B(0,0.80,0,1.16,0.04,0.96,'#7E8892'),
-    CY(-0.48,0.05,-0.40,0.05,0.06,'y','#3C4650'),CY(0.48,0.05,-0.40,0.05,0.06,'y','#3C4650'),
-    CY(-0.48,0.05,0.40,0.05,0.06,'y','#3C4650'),CY(0.48,0.05,0.40,0.05,0.06,'y','#3C4650')]},
+    B(0,0.1,0,1.2,0.2,1.0,'#6E7B87'),B(0,0.6,-0.48,1.2,0.9,0.05,'#9AA7B4'),
+    B(0,0.6,0.48,1.2,0.9,0.05,'#9AA7B4'),B(-0.58,0.6,0,0.05,0.9,1.0,'#9AA7B4'),B(0.58,0.6,0,0.05,0.9,1.0,'#9AA7B4')]},
   {id:'tambor',name:'Tambor / bombona',sub:'0,6 m',w:0.6,d:0.6,c:'#1F6E4C',parts:[
-    CY(0,0.45,0,0.29,0.88,'y','#24805A'),
-    CY(0,0.30,0,0.31,0.06,'y','#175C3E'),CY(0,0.62,0,0.31,0.06,'y','#175C3E'),
-    CY(0,0.90,0,0.27,0.05,'y','#3A9A72'),CY(0.12,0.93,0,0.05,0.04,'y','#8A939C')]},
+    B(0,0.45,0,0.58,0.9,0.58,'#24805A'),B(0,0.9,0,0.62,0.06,0.62,'#175C3E'),B(0,0.45,0,0.64,0.08,0.64,'#175C3E')]},
   {id:'embal',name:'Estação de embalagem',sub:'2,0 × 1,0 m',w:2.0,d:1.0,c:'#9C6B3F',parts:[
     B(0,0.85,0,2.0,0.08,1.0,'#B07C4A'),B(0,0.42,0,1.9,0.84,0.9,'#8A5C35'),
-    CY(-0.80,1.30,-0.40,0.03,0.90,'y','#7B8896'),
-    CY(-0.80,1.72,-0.40,0.22,0.60,'x','#E4E9ED'),
-    B(0.60,0.95,0,0.50,0.14,0.60,'#C08F52'),B(0.60,1.06,0,0.44,0.08,0.52,'#D8B45A'),
-    B(-0.20,0.95,0.20,0.24,0.14,0.18,'#2F3A45')]},
-  {id:'cilindros',name:'Cilindros de gás',sub:'par · 0,7 × 0,4 m',w:0.7,d:0.4,c:'#1F6E4C',parts:[
-    CY(-0.17,0.70,0,0.15,1.35,'y','#24805A'),CY(0.17,0.70,0,0.15,1.35,'y','#B92E2E'),
-    CY(-0.17,1.42,0,0.06,0.16,'y','#8A939C'),CY(0.17,1.42,0,0.06,0.16,'y','#8A939C'),
-    B(0,0.06,0,0.70,0.12,0.40,'#3C4650'),B(0,1.05,0,0.74,0.06,0.06,'#4A5560')]},
+    B(-0.8,1.25,-0.4,0.12,0.8,0.12,'#7B8896'),B(-0.8,1.6,-0.4,0.6,0.35,0.6,'#D7DEE4')]},
  ]],
  ['Movimentação',[
   {id:'portico',name:'Pórtico rolante',sub:'vão 6,0 m · h 4,0 m',w:6.6,d:1.2,c:'#E0A82E',parts:[
-    B(0,4.05,0,6.6,0.40,0.45,'#E0A82E'),B(0,3.82,0,6.6,0.08,0.50,'#C8901F'),
-    B(-3.05,2.00,0,0.34,4.0,0.50,'#C8901F'),B(3.05,2.00,0,0.34,4.0,0.50,'#C8901F'),
-    B(-3.05,2.00,0,0.20,3.8,0.10,'#E0A82E'),B(3.05,2.00,0,0.20,3.8,0.10,'#E0A82E'),
-    B(-3.05,0.12,0,0.90,0.24,1.10,'#3C4650'),B(3.05,0.12,0,0.90,0.24,1.10,'#3C4650'),
-    CY(-3.05,0.10,-0.42,0.10,0.14,'z','#1F262C'),CY(-3.05,0.10,0.42,0.10,0.14,'z','#1F262C'),
-    CY(3.05,0.10,-0.42,0.10,0.14,'z','#1F262C'),CY(3.05,0.10,0.42,0.10,0.14,'z','#1F262C'),
-    B(0,3.68,0,0.80,0.34,0.70,'#3C4650'),CY(0,3.68,0,0.16,0.86,'z','#5C6874'),
-    B(0,3.05,0,0.06,1.10,0.06,'#8A939C'),
-    B(0,2.44,0,0.34,0.28,0.18,'#C8541E'),B(0,2.28,0,0.10,0.16,0.10,'#8A939C')]},
+    B(0,4.05,0,6.6,0.4,0.45,'#E0A82E'),
+    B(-3.05,2.0,0,0.34,4.0,0.5,'#C8901F'),B(3.05,2.0,0,0.34,4.0,0.5,'#C8901F'),
+    B(-3.05,0.12,0,0.9,0.24,1.1,'#3C4650'),B(3.05,0.12,0,0.9,0.24,1.1,'#3C4650'),
+    B(0,3.72,0,0.75,0.32,0.75,'#3C4650'),B(0,3.1,0,0.1,1.0,0.1,'#8A939C'),B(0,2.5,0,0.3,0.25,0.16,'#C8541E')]},
   {id:'jib',name:'Jib crane (braço giratório)',sub:'alcance 3,0 m',w:1.0,d:1.0,c:'#2C6BAF',parts:[
-    B(0,0.09,0,0.90,0.18,0.90,'#3C4650'),
-    CY(0,1.85,0,0.15,3.50,'y','#2C6BAF'),CY(0,3.60,0,0.19,0.14,'y','#1F5182'),
-    B(1.50,3.44,0,3.00,0.26,0.26,'#3E7CB1'),B(1.50,3.30,0,3.00,0.06,0.30,'#2C6BAF'),
-    B(0.72,3.00,0,1.30,0.10,0.10,'#3E7CB1'),
-    B(2.60,3.22,0,0.34,0.30,0.32,'#3C4650'),
-    B(2.60,2.62,0,0.05,0.95,0.05,'#8A939C'),
-    B(2.60,2.05,0,0.24,0.26,0.16,'#C8541E'),
-    CY(0,0.26,0,0.24,0.16,'y','#1F5182')]},
+    B(0,0.1,0,0.9,0.2,0.9,'#3C4650'),B(0,1.85,0,0.3,3.5,0.3,'#2C6BAF'),
+    B(1.5,3.45,0,3.0,0.26,0.26,'#3E7CB1'),B(0.75,3.05,0,1.2,0.12,0.12,'#3E7CB1'),
+    B(2.6,3.2,0,0.3,0.3,0.3,'#3C4650'),B(2.6,2.6,0,0.06,1.0,0.06,'#8A939C'),B(2.6,2.05,0,0.22,0.25,0.14,'#C8541E')]},
   {id:'talha',name:'Dispositivo móvel de içamento',sub:'2,2 × 1,4 m',w:2.2,d:1.4,c:'#C8541E',parts:[
-    B(0,2.35,0,2.20,0.24,0.24,'#C8541E'),
-    B(-1.00,1.20,0,0.16,2.30,0.16,'#D9622A'),B(1.00,1.20,0,0.16,2.30,0.16,'#D9622A'),
-    B(-0.50,1.85,0,1.10,0.10,0.10,'#D9622A'),B(0.50,1.85,0,1.10,0.10,0.10,'#D9622A'),
-    B(-1.00,0.12,0,0.50,0.24,1.40,'#3C4650'),B(1.00,0.12,0,0.50,0.24,1.40,'#3C4650'),
-    CY(-1.00,0.10,-0.60,0.10,0.12,'z','#1F262C'),CY(-1.00,0.10,0.60,0.10,0.12,'z','#1F262C'),
-    CY(1.00,0.10,-0.60,0.10,0.12,'z','#1F262C'),CY(1.00,0.10,0.60,0.10,0.12,'z','#1F262C'),
-    B(0,2.10,0,0.36,0.30,0.30,'#3C4650'),B(0,1.62,0,0.04,0.70,0.04,'#8A939C'),
-    B(0,1.28,0,0.20,0.22,0.14,'#E0A82E')]},
+    B(0,2.35,0,2.2,0.24,0.24,'#C8541E'),
+    B(-1.0,1.2,0,0.16,2.3,0.16,'#D9622A'),B(1.0,1.2,0,0.16,2.3,0.16,'#D9622A'),
+    B(-1.0,0.1,0,0.5,0.2,1.4,'#3C4650'),B(1.0,0.1,0,0.5,0.2,1.4,'#3C4650'),
+    B(0,2.05,0,0.35,0.3,0.3,'#3C4650'),B(0,1.6,0,0.05,0.7,0.05,'#8A939C')]},
   {id:'carrinho',name:'Carrinho de materiais',sub:'1,2 × 0,7 m',w:1.2,d:0.7,c:'#0E9AA7',parts:[
-    B(0,0.55,0,1.20,0.06,0.70,'#13AFBD'),B(0,0.28,0,1.10,0.48,0.60,'#0E9AA7'),
-    B(0,0.85,-0.30,1.10,0.55,0.05,'#0A7681'),B(0,1.12,-0.30,1.14,0.06,0.08,'#3C4650'),
-    CY(-0.45,0.09,-0.30,0.09,0.06,'z','#2B3037'),CY(0.45,0.09,-0.30,0.09,0.06,'z','#2B3037'),
-    CY(-0.45,0.09,0.30,0.09,0.06,'z','#2B3037'),CY(0.45,0.09,0.30,0.09,0.06,'z','#2B3037')]},
+    B(0,0.55,0,1.2,0.06,0.7,'#13AFBD'),B(0,0.25,0,1.1,0.5,0.6,'#0E9AA7'),
+    B(0,0.85,-0.3,1.1,0.55,0.05,'#0A7681'),B(0,0.06,0,1.15,0.12,0.66,'#3C4650')]},
   {id:'paleteira',name:'Paleteira',sub:'1,6 × 0,6 m',w:1.6,d:0.7,c:'#D93B3B',parts:[
-    B(0.10,0.11,-0.22,1.40,0.12,0.16,'#E04A4A'),B(0.10,0.11,0.22,1.40,0.12,0.16,'#E04A4A'),
-    B(-0.72,0.32,0,0.34,0.52,0.56,'#B92E2E'),B(-0.72,0.60,0,0.30,0.10,0.50,'#8F2323'),
-    CY(-0.86,0.90,0,0.04,0.70,'y','#3C4650'),B(-0.90,1.24,0,0.22,0.10,0.28,'#3C4650'),
-    CY(-0.72,0.08,-0.24,0.08,0.10,'z','#2B3037'),CY(-0.72,0.08,0.24,0.08,0.10,'z','#2B3037'),
-    CY(0.72,0.05,-0.22,0.05,0.08,'z','#2B3037'),CY(0.72,0.05,0.22,0.05,0.08,'z','#2B3037')]},
+    B(0.1,0.11,-0.22,1.4,0.12,0.16,'#E04A4A'),B(0.1,0.11,0.22,1.4,0.12,0.16,'#E04A4A'),
+    B(-0.75,0.3,0,0.3,0.5,0.55,'#B92E2E'),B(-0.85,0.85,0,0.1,0.9,0.1,'#3C4650')]},
   {id:'empilhadeira',name:'Empilhadeira',sub:'2,4 × 1,2 m',w:2.4,d:1.2,c:'#E0A82E',parts:[
-    B(-0.35,0.55,0,1.70,0.62,1.10,'#E0A82E'),B(-1.05,0.50,0,0.36,0.70,1.05,'#C8901F'),
-    B(-0.50,1.02,0,0.80,0.32,0.90,'#3C4650'),B(-0.62,1.30,0,0.52,0.34,0.80,'#2F3A45'),
-    B(-0.30,1.20,0,0.06,0.42,0.06,'#8A939C'),CY(-0.30,1.44,0,0.16,0.05,'z','#2B3037'),
-    B(-0.50,1.92,0,1.12,0.10,1.10,'#3C4650'),
-    B(-0.50,1.70,-0.50,0.08,0.42,0.08,'#8A939C'),B(-0.50,1.70,0.50,0.08,0.42,0.08,'#8A939C'),
-    B(0.72,1.30,-0.32,0.12,2.40,0.10,'#C8901F'),B(0.72,1.30,0.32,0.12,2.40,0.10,'#C8901F'),
-    B(0.72,1.30,0,0.06,2.20,0.30,'#9E7318'),
-    B(1.02,0.09,-0.30,0.90,0.10,0.16,'#8A939C'),B(1.02,0.09,0.30,0.90,0.10,0.16,'#8A939C'),
-    CY(-0.95,0.28,-0.55,0.28,0.20,'z','#1F262C'),CY(-0.95,0.28,0.55,0.28,0.20,'z','#1F262C'),
-    CY(0.45,0.18,-0.45,0.18,0.16,'z','#1F262C'),CY(0.45,0.18,0.45,0.18,0.16,'z','#1F262C')]},
+    B(-0.3,0.55,0,1.7,0.7,1.15,'#E0A82E'),B(-0.55,1.25,0,0.9,0.7,1.0,'#3C4650'),
+    B(-0.5,1.85,0,1.15,0.1,1.15,'#3C4650'),B(-0.5,1.62,-0.5,0.1,0.45,0.1,'#8A939C'),B(-0.5,1.62,0.5,0.1,0.45,0.1,'#8A939C'),
+    B(0.75,1.3,0,0.14,2.5,1.0,'#C8901F'),B(1.0,0.1,-0.3,0.9,0.1,0.16,'#8A939C'),B(1.0,0.1,0.3,0.9,0.1,0.16,'#8A939C')]},
   {id:'berco',name:'Berço de montagem do ROV',sub:'3,6 × 2,0 m',w:3.6,d:2.0,c:'#5C6874',parts:[
-    B(0,0.36,-0.80,3.6,0.16,0.30,'#6E7B87'),B(0,0.36,0.80,3.6,0.16,0.30,'#6E7B87'),
-    B(-1.60,0.18,0,0.22,0.36,1.90,'#556270'),B(1.60,0.18,0,0.22,0.36,1.90,'#556270'),
-    B(0,0.18,0,0.18,0.30,1.80,'#4C5966'),
-    B(-1.00,0.52,-0.80,0.34,0.20,0.44,'#E0A82E'),B(1.00,0.52,-0.80,0.34,0.20,0.44,'#E0A82E'),
-    B(-1.00,0.52,0.80,0.34,0.20,0.44,'#E0A82E'),B(1.00,0.52,0.80,0.34,0.20,0.44,'#E0A82E'),
-    B(0,0.05,0,3.5,0.10,1.9,'#48545F')]},
+    B(0,0.35,-0.8,3.6,0.14,0.3,'#6E7B87'),B(0,0.35,0.8,3.6,0.14,0.3,'#6E7B87'),
+    B(-1.6,0.18,0,0.2,0.36,1.9,'#556270'),B(1.6,0.18,0,0.2,0.36,1.9,'#556270'),
+    B(-1.0,0.5,-0.8,0.3,0.2,0.4,'#E0A82E'),B(1.0,0.5,-0.8,0.3,0.2,0.4,'#E0A82E'),
+    B(-1.0,0.5,0.8,0.3,0.2,0.4,'#E0A82E'),B(1.0,0.5,0.8,0.3,0.2,0.4,'#E0A82E')]},
   {id:'carro',name:'Carro de transporte do ROV',sub:'4,0 × 2,2 m',w:4.0,d:2.2,c:'#3C4650',parts:[
-    B(0,0.46,0,4.00,0.16,2.20,'#4B5560'),B(0,0.55,0,3.80,0.03,2.00,'#5C6874'),
-    B(0,0.24,0,3.80,0.28,2.00,'#39424B'),
-    B(-1.90,0.60,0,0.10,0.28,2.10,'#E0A82E'),B(1.90,0.60,0,0.10,0.28,2.10,'#E0A82E'),
-    CY(-1.45,0.14,-0.92,0.14,0.16,'z','#1F262C'),CY(1.45,0.14,-0.92,0.14,0.16,'z','#1F262C'),
-    CY(-1.45,0.14,0.92,0.14,0.16,'z','#1F262C'),CY(1.45,0.14,0.92,0.14,0.16,'z','#1F262C')]},
+    B(0,0.45,0,4.0,0.16,2.2,'#4B5560'),B(0,0.22,0,3.8,0.3,2.0,'#39424B'),
+    B(-1.5,0.1,-0.9,0.4,0.2,0.2,'#1F262C'),B(1.5,0.1,-0.9,0.4,0.2,0.2,'#1F262C'),
+    B(-1.5,0.1,0.9,0.4,0.2,0.2,'#1F262C'),B(1.5,0.1,0.9,0.4,0.2,0.2,'#1F262C')]},
  ]],
  ['Equipamentos',[
   {id:'painel',name:'Painel elétrico',sub:'0,8 × 0,4 m',w:0.8,d:0.4,c:'#B5B9BE',parts:[
-    B(0,1.00,0,0.80,2.00,0.40,'#C1C5CA'),B(0,1.10,0.21,0.72,1.66,0.02,'#A8ADB3'),
-    B(0,1.10,0.23,0.02,1.60,0.02,'#8E9399'),
-    B(0.28,1.10,0.23,0.05,0.05,0.03,'#5C6874'),
-    B(0,1.90,0.22,0.20,0.08,0.03,'#16A34A'),B(-0.24,1.90,0.22,0.08,0.08,0.03,'#E0A82E'),
-    B(0,2.02,0,0.84,0.06,0.44,'#9AA0A6')]},
+    B(0,1.0,0,0.8,2.0,0.4,'#C1C5CA'),B(0,1.15,0.21,0.7,1.5,0.03,'#9AA0A6'),B(0,1.9,0.22,0.2,0.1,0.03,'#16A34A')]},
   {id:'compressor',name:'Compressor',sub:'1,2 × 0,8 m',w:1.2,d:0.8,c:'#2E6796',parts:[
-    CY(0,0.55,0,0.34,1.10,'x','#356FA3'),
-    B(0,1.02,0,0.60,0.32,0.50,'#243F5C'),CY(0.34,1.02,0,0.14,0.30,'x','#1B3247'),
-    B(0,0.08,0,1.20,0.16,0.80,'#3C4650'),
-    B(-0.42,0.86,0,0.20,0.28,0.24,'#8A939C'),B(0.50,0.72,0,0.14,0.16,0.14,'#E0A82E')]},
+    B(0,0.55,0,1.2,0.9,0.8,'#356FA3'),B(0,1.1,0,0.9,0.25,0.6,'#243F5C'),B(0,0.06,0,1.25,0.12,0.85,'#3C4650')]},
   {id:'exaustor',name:'Braço de exaustão',sub:'área suja',w:0.6,d:0.6,c:'#7B8896',parts:[
-    B(0,0.09,0,0.70,0.18,0.70,'#3C4650'),
-    CY(0,1.35,0,0.09,2.50,'y','#7B8896'),
-    CY(0.68,2.58,0,0.11,1.45,'x','#8A939C'),
-    CY(1.40,2.34,0,0.26,0.46,'y','#5C6874'),CY(1.40,2.12,0,0.30,0.10,'y','#48545F'),
-    CY(0,2.62,0,0.14,0.18,'y','#5C6874')]},
+    B(0,0.1,0,0.7,0.2,0.7,'#3C4650'),B(0,1.4,0,0.18,2.6,0.18,'#7B8896'),
+    B(0.7,2.6,0,1.5,0.16,0.16,'#8A939C'),B(1.4,2.35,0,0.5,0.45,0.5,'#5C6874')]},
   {id:'rackteste',name:'Rack de teste',sub:'1,0 × 0,8 m',w:1.0,d:0.8,c:'#2F4858',parts:[
-    B(0,1.00,0,1.00,2.00,0.80,'#39536A'),B(0,1.05,0.41,0.90,1.70,0.02,'#1F2E3B'),
-    B(0,1.72,0.43,0.86,0.16,0.02,'#4A5F73'),B(0,1.50,0.43,0.86,0.16,0.02,'#4A5F73'),
-    B(0,1.28,0.43,0.86,0.16,0.02,'#4A5F73'),B(0,1.06,0.43,0.86,0.16,0.02,'#4A5F73'),
-    B(0,0.60,0.43,0.86,0.30,0.02,'#0E9AA7'),
-    B(0.35,1.94,0.43,0.14,0.05,0.02,'#16A34A'),
-    B(0,2.03,0,1.04,0.06,0.84,'#2A3D4E')]},
+    B(0,1.0,0,1.0,2.0,0.8,'#39536A'),B(0,1.35,0.42,0.85,1.1,0.03,'#1F2E3B'),
+    B(0,1.85,0.42,0.85,0.2,0.03,'#0E9AA7')]},
   {id:'container',name:'Contêiner 20 pés',sub:'6,1 × 2,4 m',w:6.1,d:2.44,c:'#B0472C',parts:[
-    B(0,1.30,0,6.10,2.59,2.44,'#BE4F31'),
-    B(0,1.30,1.23,5.90,2.40,0.03,'#A03F26'),B(0,1.30,-1.23,5.90,2.40,0.03,'#A03F26'),
-    B(-2.20,1.30,1.25,0.06,2.30,0.02,'#8F3720'),B(-1.10,1.30,1.25,0.06,2.30,0.02,'#8F3720'),
-    B(0,1.30,1.25,0.06,2.30,0.02,'#8F3720'),B(1.10,1.30,1.25,0.06,2.30,0.02,'#8F3720'),
-    B(2.20,1.30,1.25,0.06,2.30,0.02,'#8F3720'),
-    B(3.06,1.30,0,0.04,2.42,2.30,'#8F3720'),B(3.08,1.30,0,0.02,2.20,0.06,'#5C6874'),
-    B(0,2.62,0,6.16,0.10,2.50,'#8F3720'),B(0,0.05,0,6.16,0.10,2.50,'#5C6874')]},
+    B(0,1.3,0,6.1,2.59,2.44,'#BE4F31'),B(0,1.3,1.23,6.1,2.5,0.04,'#A03F26'),B(0,2.6,0,6.15,0.1,2.5,'#8F3720')]},
   {id:'tanque',name:'Tanque de testes',sub:'6,0 × 6,0 m',w:6.0,d:6.0,c:'#1E6E8C',parts:[
-    B(0,0.60,-3.00,6.40,1.20,0.40,'#B8C2C9'),B(0,0.60,3.00,6.40,1.20,0.40,'#B8C2C9'),
-    B(-3.00,0.60,0,0.40,1.20,6.00,'#B8C2C9'),B(3.00,0.60,0,0.40,1.20,6.00,'#B8C2C9'),
-    B(0,1.22,-3.00,6.44,0.08,0.46,'#8A939C'),B(0,1.22,3.00,6.44,0.08,0.46,'#8A939C'),
-    B(-3.00,1.22,0,0.46,0.08,6.04,'#8A939C'),B(3.00,1.22,0,0.46,0.08,6.04,'#8A939C'),
-    B(0,0.20,0,5.60,0.40,5.60,'#17627E'),B(0,1.00,0,5.60,0.08,5.60,'#2FA8CE'),
-    B(0,1.03,0,4.20,0.02,4.20,'#4EC0E0'),
-    B(2.60,1.30,-2.20,0.30,0.90,0.10,'#8A939C'),B(2.60,1.30,-1.90,0.30,0.90,0.10,'#8A939C')]},
+    B(0,0.6,-3.0,6.4,1.2,0.4,'#8A939C'),B(0,0.6,3.0,6.4,1.2,0.4,'#8A939C'),
+    B(-3.0,0.6,0,0.4,1.2,6.0,'#8A939C'),B(3.0,0.6,0,0.4,1.2,6.0,'#8A939C'),
+    B(0,0.5,0,5.9,1.0,5.9,'#2A93B8')]},
   {id:'hpu',name:'HPU',sub:'1,5 × 0,6 m',w:1.5,d:0.6,c:'#4A6572',parts:[
-    B(0,0.08,0,1.50,0.16,0.60,'#3C4650'),
-    CY(-0.30,0.44,0,0.24,0.70,'x','#55707F'),
-    B(0.42,0.42,0,0.50,0.44,0.46,'#3B535F'),CY(0.42,0.42,0,0.14,0.52,'x','#2A3D46'),
-    B(-0.10,0.78,0,0.90,0.12,0.40,'#8A939C'),
-    B(0.62,0.72,0,0.16,0.16,0.16,'#E0A82E')]},
+    B(0,0.35,0,1.5,0.6,0.6,'#55707F'),B(0,0.7,0,1.2,0.15,0.5,'#3B535F')]},
  ]],
  ['Peças do ROV',[
-  {id:'rov',name:'Sistema ROV',sub:'3,22 × 1,7 × 1,9 m',w:3.22,d:1.7,c:'#F2C21E',parts:[
-    /* patins */
-    B(0,0.08,-0.70,3.30,0.16,0.24,'#E9EDF0'),B(0,0.08,0.70,3.30,0.16,0.24,'#E9EDF0'),
-    B(-1.36,0.30,-0.70,0.18,0.30,0.20,'#CDD4DA'),B(1.36,0.30,-0.70,0.18,0.30,0.20,'#CDD4DA'),
-    B(-1.36,0.30,0.70,0.18,0.30,0.20,'#CDD4DA'),B(1.36,0.30,0.70,0.18,0.30,0.20,'#CDD4DA'),
-    /* estrutura interna */
-    B(0,0.86,0,3.00,0.96,1.40,'#3A4149'),
-    /* painéis brancos perfurados */
-    B(0,0.80,-0.83,3.06,0.88,0.07,'#E4E9ED'),B(0,0.80,0.83,3.06,0.88,0.07,'#E4E9ED'),
-    B(0,0.62,-0.875,2.70,0.09,0.02,'#B9C2C9'),B(0,0.92,-0.875,2.70,0.09,0.02,'#B9C2C9'),
-    B(0,0.62,0.875,2.70,0.09,0.02,'#B9C2C9'),B(0,0.92,0.875,2.70,0.09,0.02,'#B9C2C9'),
-    /* casco amarelo */
-    B(0,1.52,0,3.22,0.76,1.70,'#F2C21E'),B(0,1.89,0,3.02,0.08,1.52,'#DCAE13'),
-    B(1.44,1.18,0,0.34,0.42,1.66,'#E5B417'),B(-1.58,1.34,0,0.06,0.72,1.66,'#DCAE13'),
-    B(0,1.87,-0.80,3.00,0.05,0.05,'#C79C0F'),B(0,1.87,0.80,3.00,0.05,0.05,'#C79C0F'),
-    B(0,1.14,-0.86,2.90,0.10,0.03,'#C79C0F'),B(0,1.14,0.86,2.90,0.10,0.03,'#C79C0F'),
-    /* túneis de propulsão horizontais */
-    CY(-0.62,1.44,0,0.33,1.78,'z','#2B3037'),CY(0.74,1.44,0,0.33,1.78,'z','#2B3037'),
-    CY(-0.62,1.44,0,0.27,0.10,'z','#15181C'),CY(0.74,1.44,0,0.27,0.10,'z','#15181C'),
-    CY(-0.62,1.44,0,0.06,1.82,'z','#8A939C'),CY(0.74,1.44,0,0.06,1.82,'z','#8A939C'),
-    /* propulsores verticais */
-    CY(-1.08,1.88,-0.46,0.23,0.26,'y','#2B3037'),CY(-1.08,1.88,0.46,0.23,0.26,'y','#2B3037'),
-    /* vasos de pressão */
-    CY(0.05,0.95,-0.42,0.15,1.66,'x','#23282E'),CY(0.05,0.95,0.42,0.15,1.66,'x','#23282E'),
-    /* sensores e câmera */
-    B(1.52,1.42,0.32,0.16,0.28,0.28,'#DCE2E6'),B(1.60,1.42,0.32,0.04,0.15,0.15,'#0E9AA7'),
-    B(1.52,1.42,-0.32,0.16,0.20,0.34,'#F5F7F8'),
-    /* manipulador */
-    B(1.24,1.05,-0.62,0.28,0.36,0.26,'#9AA4AD'),
-    CY(1.52,1.00,-0.70,0.09,0.56,'x','#B4BDC4'),
-    CY(1.38,1.06,-0.74,0.05,0.36,'x','#5C646B'),
-    B(1.76,0.72,-0.76,0.15,0.60,0.14,'#B4BDC4'),
-    B(1.78,0.40,-0.76,0.22,0.12,0.12,'#7E878F'),
-    B(1.86,0.32,-0.82,0.14,0.10,0.05,'#6E767D'),B(1.86,0.32,-0.70,0.14,0.10,0.05,'#6E767D')]},
-  {id:'tms',name:'TMS (garagem)',sub:'2,59 × 2,38 × 2,44 m',w:2.59,d:2.38,c:'#E0A82E',parts:[
-    B(0,0.10,0,2.59,0.20,2.38,'#CDD4DA'),
-    B(-1.18,1.15,-1.08,0.16,2.00,0.16,'#9AA4AD'),B(1.18,1.15,-1.08,0.16,2.00,0.16,'#9AA4AD'),
-    B(-1.18,1.15,1.08,0.16,2.00,0.16,'#9AA4AD'),B(1.18,1.15,1.08,0.16,2.00,0.16,'#9AA4AD'),
-    B(0,2.20,0,2.59,0.44,2.38,'#F2C21E'),B(0,2.43,0,2.32,0.06,2.10,'#DCAE13'),
-    CY(0,1.24,0,0.60,1.66,'z','#3A4149'),
-    CY(0,1.24,-0.88,0.76,0.10,'z','#2B3037'),CY(0,1.24,0.88,0.76,0.10,'z','#2B3037'),
-    CY(0,1.24,0,0.12,2.02,'z','#8A939C'),
-    B(-1.26,1.15,0,0.05,1.60,1.90,'#E4E9ED'),B(1.26,1.15,0,0.05,1.60,1.90,'#E4E9ED'),
-    B(0,0.34,0,2.30,0.14,2.10,'#8A939C')]},
-  {id:'chassi',name:'Chassi do ROV',sub:'3,2 × 1,7 × 1,0 m',w:3.2,d:1.7,c:'#8A939C',parts:[
-    B(0,0.08,-0.78,3.20,0.16,0.20,'#E9EDF0'),B(0,0.08,0.78,3.20,0.16,0.20,'#E9EDF0'),
-    B(0,0.92,-0.78,3.20,0.14,0.16,'#9AA4AD'),B(0,0.92,0.78,3.20,0.14,0.16,'#9AA4AD'),
-    B(-1.54,0.50,0,0.14,1.00,1.70,'#9AA4AD'),B(1.54,0.50,0,0.14,1.00,1.70,'#9AA4AD'),
-    CY(-0.50,0.50,-0.78,0.06,0.86,'y','#8A939C'),CY(0.50,0.50,-0.78,0.06,0.86,'y','#8A939C'),
-    CY(-0.50,0.50,0.78,0.06,0.86,'y','#8A939C'),CY(0.50,0.50,0.78,0.06,0.86,'y','#8A939C'),
-    B(0,0.34,0,2.80,0.10,1.40,'#77818A'),
-    CY(0,0.72,0,0.05,1.50,'z','#6E767D')]},
-  {id:'flutuador',name:'Bloco de flutuação',sub:'3,2 × 1,7 × 1,0 m',w:3.2,d:1.7,c:'#F2C21E',parts:[
-    B(0,0.50,0,3.20,1.00,1.70,'#F2C21E'),
-    B(0,0.98,0,3.02,0.06,1.52,'#DCAE13'),B(0,0.04,0,3.02,0.06,1.52,'#DCAE13'),
-    B(0,0.50,-0.86,2.60,0.48,0.03,'#E5B417'),B(0,0.50,0.86,2.60,0.48,0.03,'#E5B417'),
-    CY(-0.90,1.00,0,0.24,0.08,'y','#C79C0F'),CY(0.90,1.00,0,0.24,0.08,'y','#C79C0F'),
-    CY(0,1.00,0,0.18,0.08,'y','#C79C0F')]},
+  {id:'rov',name:'ROV',sub:'3,22 × 1,7 × 1,9 m',w:3.22,d:1.7,c:'#E9B01F',parts:[
+    B(0,1.55,0,3.22,0.6,1.7,'#F2C33C'),B(0,0.85,0,3.0,0.85,1.55,'#39424B'),
+    B(-1.5,0.85,0,0.24,0.8,1.5,'#2A3138'),B(1.5,0.85,0,0.24,0.8,1.5,'#2A3138'),
+    B(1.3,1.0,0,0.35,0.35,0.35,'#0E9AA7'),B(0,0.2,0,3.0,0.4,1.5,'#2A3138')]},
+  {id:'tms',name:'TMS',sub:'2,59 × 2,38 × 2,44 m',w:2.59,d:2.38,c:'#C8901F',parts:[
+    B(0,2.15,0,2.59,0.6,2.38,'#E0A82E'),B(0,1.0,0,2.4,1.7,2.2,'#4B5560'),
+    B(0,0.15,0,2.5,0.3,2.3,'#39424B')]},
+  {id:'chassi',name:'Chassi',sub:'3,2 × 1,7 × 1,0 m',w:3.2,d:1.7,c:'#5C6874',parts:[
+    B(0,0.5,0,3.2,1.0,1.7,'#68757F'),B(0,1.0,0,3.1,0.12,1.6,'#4B5560'),B(0,0.06,0,3.1,0.12,1.6,'#4B5560')]},
+  {id:'flutuador',name:'Flutuador',sub:'3,2 × 1,7 × 1,0 m',w:3.2,d:1.7,c:'#F2C33C',parts:[
+    B(0,0.5,0,3.2,1.0,1.7,'#F5CE55'),B(0,0.98,0,3.0,0.1,1.5,'#DCA91F')]},
   {id:'manip',name:'Manipulador',sub:'1,5 × 0,5 m',w:1.5,d:0.5,c:'#8A939C',parts:[
-    B(-0.60,0.12,0,0.30,0.24,0.44,'#5C646B'),
-    CY(-0.30,0.30,0,0.10,0.60,'x','#96A0A9'),
-    CY(-0.10,0.34,0,0.05,0.34,'x','#5C646B'),
-    B(0.22,0.42,0,0.42,0.12,0.12,'#B4BDC4'),
-    B(0.52,0.34,0,0.16,0.22,0.10,'#96A0A9'),
-    B(0.64,0.28,-0.06,0.14,0.08,0.04,'#6E767D'),B(0.64,0.28,0.06,0.14,0.08,0.04,'#6E767D')]},
+    B(0,0.15,0,1.5,0.3,0.5,'#96A0A9'),B(0.6,0.45,0,0.3,0.35,0.3,'#6E7B87')]},
  ]],
  ['Infraestrutura',[
   {id:'vidro',name:'Divisória de vidro',sub:'2,0 m · h 2,5 m',w:2.0,d:0.15,c:'#9FD3E0',parts:[
-    B(0,1.25,0,2.00,2.50,0.08,'#BEE4EE'),
-    B(0,1.35,0,2.02,0.42,0.10,'#8FBFCC'),
-    B(0,2.52,0,2.06,0.08,0.16,'#7B8896'),B(0,0.05,0,2.06,0.10,0.16,'#7B8896'),
-    B(-1.00,1.25,0,0.08,2.50,0.14,'#8A939C'),B(1.00,1.25,0,0.08,2.50,0.14,'#8A939C')]},
+    B(0,1.25,0,2.0,2.5,0.1,'#B7E0EA'),B(0,1.35,0,2.02,0.45,0.12,'#8FBFCC'),
+    B(0,2.52,0,2.05,0.08,0.16,'#7B8896'),B(0,0.05,0,2.05,0.1,0.16,'#7B8896')]},
   {id:'porta',name:'Porta industrial',sub:'2,5 m · h 3,0 m',w:2.5,d:0.2,c:'#6E7B87',parts:[
-    B(0,1.50,0,2.50,3.00,0.12,'#8A939C'),
-    B(0,0.45,0,2.40,0.08,0.16,'#6E7B87'),B(0,0.95,0,2.40,0.08,0.16,'#6E7B87'),
-    B(0,1.45,0,2.40,0.08,0.16,'#6E7B87'),B(0,1.95,0,2.40,0.08,0.16,'#6E7B87'),
-    B(0,2.45,0,2.40,0.08,0.16,'#6E7B87'),
-    B(0,1.95,0,0.70,0.45,0.16,'#BEE4EE'),
-    B(-1.30,1.50,0,0.12,3.10,0.20,'#5C6874'),B(1.30,1.50,0,0.12,3.10,0.20,'#5C6874'),
-    B(0,3.08,0,2.74,0.16,0.26,'#5C6874')]},
+    B(0,1.5,0,2.5,3.0,0.14,'#7B8896'),B(0,1.5,0,2.4,0.1,0.18,'#5C6874'),
+    B(0,2.2,0,2.4,0.1,0.18,'#5C6874'),B(0,0.8,0,2.4,0.1,0.18,'#5C6874')]},
   {id:'cortina',name:'Cortina de PVC',sub:'2,0 m',w:2.0,d:0.1,c:'#E6C25A',parts:[
-    B(-0.75,1.40,0,0.46,2.78,0.04,'#EFD98F'),B(-0.25,1.40,0,0.46,2.78,0.04,'#E8CE72'),
-    B(0.25,1.40,0,0.46,2.78,0.04,'#EFD98F'),B(0.75,1.40,0,0.46,2.78,0.04,'#E8CE72'),
-    B(0,2.82,0,2.10,0.10,0.12,'#7B8896')]},
+    B(0,1.4,0,2.0,2.8,0.06,'#EFD98F'),B(0,2.82,0,2.1,0.1,0.12,'#7B8896')]},
   {id:'coluna',name:'Coluna estrutural',sub:'0,4 × 0,4 m',w:0.4,d:0.4,c:'#B5B9BE',parts:[
-    B(0,2.50,0,0.10,5.00,0.40,'#C1C5CA'),
-    B(-0.16,2.50,0,0.22,5.00,0.06,'#B0B5BA'),B(0.16,2.50,0,0.22,5.00,0.06,'#B0B5BA'),
-    B(0,0.10,0,0.70,0.20,0.70,'#8A939C'),B(0,4.90,0,0.60,0.16,0.60,'#8A939C')]},
+    B(0,2.5,0,0.4,5.0,0.4,'#C1C5CA'),B(0,0.08,0,0.7,0.16,0.7,'#8A939C')]},
   {id:'faixa',name:'Demarcação de piso',sub:'2,0 × 0,5 m',w:2.0,d:0.5,c:'#F5D97B',parts:[
-    B(0,0.01,-0.20,2.00,0.02,0.10,'#F7DE8C'),B(0,0.01,0.20,2.00,0.02,0.10,'#F7DE8C')]},
+    B(0,0.01,0,2.0,0.02,0.5,'#F7DE8C')]},
   {id:'extintor',name:'Ponto de segurança',sub:'0,4 m',w:0.4,d:0.4,c:'#D93B3B',parts:[
-    B(0,0.03,0,0.50,0.06,0.50,'#B92E2E'),
-    CY(0,0.42,0,0.11,0.66,'y','#E04A4A'),CY(0,0.78,0,0.05,0.10,'y','#3C4650'),
-    B(0.10,0.80,0,0.14,0.04,0.04,'#2B3037'),
-    B(0,1.30,-0.16,0.34,0.34,0.03,'#D93B3B'),B(0,1.30,-0.14,0.24,0.24,0.01,'#F4F5F7')]},
+    B(0,0.05,0,0.5,0.1,0.5,'#B92E2E'),B(0,0.45,0,0.24,0.7,0.24,'#E04A4A'),B(0,0.85,0,0.1,0.15,0.1,'#3C4650')]},
  ]],
  ['Pessoas',[
-  {id:'p_op',name:'Operador de montagem',sub:'boneco animado',w:0.6,d:0.4,c:'#0E9AA7',person:'#F2C21E',vest:'#0E9AA7'},
+  {id:'p_op',name:'Operador de montagem',sub:'boneco animado',w:0.6,d:0.4,c:'#0E9AA7',person:'#F2C33C',vest:'#0E9AA7'},
   {id:'p_sold',name:'Soldador',sub:'boneco animado',w:0.6,d:0.4,c:'#C8541E',person:'#3C4650',vest:'#C8541E'},
   {id:'p_log',name:'Operador de logística',sub:'boneco animado',w:0.6,d:0.4,c:'#E0A82E',person:'#E0A82E',vest:'#E0A82E'},
   {id:'p_cq',name:'Inspetor da qualidade',sub:'boneco animado',w:0.6,d:0.4,c:'#F4F5F7',person:'#FFFFFF',vest:'#2F4858'},
  ]],
 ];
-
 /* nav: 'none' = passa por baixo/por dentro · navParts = apenas estes retângulos bloqueiam */
 const NAVOVER={
   portico:{navParts:[{x:-3.05,z:0,w:1.0,d:1.2},{x:3.05,z:0,w:1.0,d:1.2}]},
@@ -1796,34 +1699,19 @@ CATS.forEach(([cat,list])=>list.forEach(it=>{
   if(NAVOVER[it.id])Object.assign(it,NAVOVER[it.id]);
   if(it.person){
     it.parts=[
-      B(-0.11,0.42,0,0.16,0.78,0.18,'#2B3A4A'),B(0.11,0.42,0,0.16,0.78,0.18,'#2B3A4A'),
-      B(-0.11,0.05,0.03,0.18,0.10,0.26,'#1B222B'),B(0.11,0.05,0.03,0.18,0.10,0.26,'#1B222B'),
-      B(0,1.14,0,0.44,0.66,0.26,it.vest),
-      B(0,1.24,0,0.452,0.09,0.272,'#EFF3F5'),
-      B(0,1.02,0,0.452,0.07,0.272,'#EFF3F5'),
-      B(-0.28,1.14,0,0.12,0.54,0.17,it.vest),B(0.28,1.14,0,0.12,0.54,0.17,it.vest),
-      B(-0.28,0.83,0,0.11,0.14,0.15,'#E4B08A'),B(0.28,0.83,0,0.11,0.14,0.15,'#E4B08A'),
-      B(0,1.55,0,0.15,0.10,0.17,'#E4B08A'),
-      B(0,1.68,0,0.23,0.24,0.22,'#E4B08A'),
-      B(0,1.83,0,0.28,0.12,0.28,it.person),
-      B(0,1.90,0,0.22,0.06,0.22,it.person),
-      B(0,1.76,0.12,0.24,0.05,0.05,it.person)];
-    it.h=1.95;
+      B(-0.11,0.4,0,0.16,0.8,0.18,'#2B3A4A'),B(0.11,0.4,0,0.16,0.8,0.18,'#2B3A4A'),
+      B(0,1.15,0,0.44,0.64,0.26,it.vest),
+      B(-0.28,1.12,0,0.12,0.56,0.16,it.vest),B(0.28,1.12,0,0.12,0.56,0.16,it.vest),
+      B(0,1.58,0,0.23,0.26,0.22,'#E4B08A'),
+      B(0,1.76,0,0.29,0.13,0.29,it.person)];
+    it.h=1.85;
   }
-  let rad=0,top=0;
-  it.parts.forEach(p=>{
-    const hx=p.cyl?p.r:(p.w/2), hy=p.cyl?(p.ax==='y'?p.l/2:p.r):(p.h/2), hz=p.cyl?p.r:(p.d/2);
-    rad=Math.max(rad,Math.hypot(Math.abs(p.x)+hx,Math.abs(p.z)+hz));
-    top=Math.max(top,p.y+hy);
-  });
-  it.rad=rad;it.top=top;
   ITEM[it.id]=it;
 }));
 
 /* ═══════════════ 12. RENDERIZADOR 3D ═══════════════ */
 const ROOMS={};ZONES.forEach(z=>ROOMS[z.id]={items:[]});
-const cvs=document.getElementById('c3d');
-let g3=cvs.getContext('2d');
+const cvs=document.getElementById('c3d'),g3=cvs.getContext('2d');
 const cam={yaw:-0.62,pitch:0.60,dist:26,tx:0,tz:0};
 let curZone=null,tool=null,sel=null,ghost=null,peopleOn=false,trailOn=true,showNav=false,rafRoom=null,lastT=0;
 const LIGHT=(()=>{const v={x:0.42,y:0.82,z:0.38};const n=Math.hypot(v.x,v.y,v.z);return {x:v.x/n,y:v.y/n,z:v.z/n};})();
@@ -1885,95 +1773,6 @@ function pushBox(out,cxp,cyp,czp,w,h,d,color,rot,W,H,F,cp3){
     out.push({pts,z:(pts[0].z+pts[1].z+pts[2].z+pts[3].z)/4,c:shade(color,0.52+0.58*lam)});
   }
 }
-function pushCyl(out,cx,cy,cz,r,l,ax,color,rot,W,H,F,cp3,seg){
-  seg=seg||12;
-  const cr=Math.cos(rot||0),sr=Math.sin(rot||0);
-  const toW=(lx,ly,lz)=>({x:cx+lx*cr+lz*sr,y:cy+ly,z:cz-lx*sr+lz*cr});
-  const A=[],Bv=[],NA=[];
-  for(let i=0;i<seg;i++){
-    const a=i/seg*Math.PI*2, ca=Math.cos(a), sa=Math.sin(a);
-    let p0,p1,n;
-    if(ax==='y'){p0=[ca*r,-l/2,sa*r];p1=[ca*r,l/2,sa*r];n=[ca,0,sa];}
-    else if(ax==='x'){p0=[-l/2,ca*r,sa*r];p1=[l/2,ca*r,sa*r];n=[0,ca,sa];}
-    else{p0=[ca*r,sa*r,-l/2];p1=[ca*r,sa*r,l/2];n=[ca,sa,0];}
-    A.push(toW(p0[0],p0[1],p0[2]));Bv.push(toW(p1[0],p1[1],p1[2]));
-    NA.push({x:n[0]*cr+n[2]*sr,y:n[1],z:-n[0]*sr+n[2]*cr});
-  }
-  const emit=(wp,n)=>{
-    let cxx=0,cyy=0,czz=0;
-    wp.forEach(q=>{cxx+=q.x/wp.length;cyy+=q.y/wp.length;czz+=q.z/wp.length;});
-    if((cp3.x-cxx)*n.x+(cp3.y-cyy)*n.y+(cp3.z-czz)*n.z<=0)return;
-    const pts=[];let zs=0;
-    for(const q of wp){const s=proj(q,W,H,F);if(!s)return;pts.push(s);zs+=s.z;}
-    const lam=Math.max(0,n.x*LIGHT.x+n.y*LIGHT.y+n.z*LIGHT.z);
-    out.push({pts,z:zs/pts.length,c:shade(color,0.52+0.58*lam)});
-  };
-  for(let i=0;i<seg;i++){
-    const j=(i+1)%seg;
-    emit([A[i],A[j],Bv[j],Bv[i]],{x:(NA[i].x+NA[j].x)/2,y:(NA[i].y+NA[j].y)/2,z:(NA[i].z+NA[j].z)/2});
-  }
-  let n0,n1;
-  if(ax==='y'){n0={x:0,y:-1,z:0};n1={x:0,y:1,z:0};}
-  else if(ax==='x'){n0={x:-cr,y:0,z:sr};n1={x:cr,y:0,z:-sr};}
-  else{n0={x:-sr,y:0,z:-cr};n1={x:sr,y:0,z:cr};}
-  emit(A.slice().reverse(),n0);emit(Bv,n1);
-}
-
-/* ═══ RENDERIZAÇÃO 3D DA TELA INICIAL ═══
-   Reaproveita o mesmo pipeline (proj/pushBox/pushCyl) do editor de fábrica,
-   apenas com uma câmera e um canvas próprios, girando automaticamente. */
-const heroCv=document.getElementById('rovHero');
-const heroCtx=heroCv?heroCv.getContext('2d'):null;
-const heroCam={yaw:0.5,pitch:0.30,tx:0,tz:0,dist:0};
-let heroRAF=null,heroLastT=0,heroDrag=null,heroSpin=true,heroResumeAt=0;
-function heroSetDist(){
-  const r=ITEM.rov;heroCam.dist=Math.max(r.rad,r.top)*2.55+2.2;
-}
-function heroFrame(now){
-  heroRAF=null;
-  if(!heroCtx||startEl.classList.contains('hide'))return;
-  const dt=Math.min(0.05,(now-(heroLastT||now))/1000);heroLastT=now;
-  if(heroSpin&&!heroDrag&&now>heroResumeAt)heroCam.yaw+=dt*0.30;
-  const W=heroCv.clientWidth,H=heroCv.clientHeight,dpr=window.devicePixelRatio||1;
-  if(W&&H){
-    if(heroCv.width!==W*dpr||heroCv.height!==H*dpr){heroCv.width=W*dpr;heroCv.height=H*dpr;}
-    if(!heroCam.dist)heroSetDist();
-    const savedCam={yaw:cam.yaw,pitch:cam.pitch,tx:cam.tx,tz:cam.tz,dist:cam.dist};
-    cam.yaw=heroCam.yaw;cam.pitch=heroCam.pitch;cam.tx=0;cam.tz=0;cam.dist=heroCam.dist;
-    const savedG3=g3;g3=heroCtx;
-    g3.setTransform(dpr,0,0,dpr,0,0);g3.clearRect(0,0,W,H);
-    const F=H*1.05,cp3=camPos(),mid=ITEM.rov.top/2;
-    const faces=[];
-    ITEM.rov.parts.forEach(p=>{
-      if(p.cyl)pushCyl(faces,p.x,p.y-mid,p.z,p.r,p.l,p.ax,p.c,0,W,H,F,cp3,p.r<0.12?8:12);
-      else pushBox(faces,p.x,p.y-mid,p.z,p.w,p.h,p.d,p.c,0,W,H,F,cp3);
-    });
-    faces.sort((a,b)=>b.z-a.z);
-    for(const f of faces){
-      g3.beginPath();g3.moveTo(f.pts[0].x,f.pts[0].y);
-      for(let i=1;i<f.pts.length;i++)g3.lineTo(f.pts[i].x,f.pts[i].y);
-      g3.closePath();g3.fillStyle=f.c;g3.fill();
-      g3.strokeStyle='rgba(17,17,17,.16)';g3.lineWidth=.8;g3.stroke();
-    }
-    g3=savedG3;
-    cam.yaw=savedCam.yaw;cam.pitch=savedCam.pitch;cam.tx=savedCam.tx;cam.tz=savedCam.tz;cam.dist=savedCam.dist;
-  }
-  heroRAF=requestAnimationFrame(heroFrame);
-}
-function heroPlay(){heroLastT=0;if(!heroRAF)heroRAF=requestAnimationFrame(heroFrame);}
-function heroStop(){if(heroRAF){cancelAnimationFrame(heroRAF);heroRAF=null;}}
-if(heroCv){
-  heroCv.addEventListener('pointerdown',e=>{
-    heroDrag={x:e.clientX,yaw:heroCam.yaw};heroCv.setPointerCapture(e.pointerId);
-  });
-  heroCv.addEventListener('pointermove',e=>{
-    if(!heroDrag)return;heroCam.yaw=heroDrag.yaw+(e.clientX-heroDrag.x)*0.012;
-  });
-  const heroEndDrag=()=>{heroDrag=null;heroResumeAt=performance.now()+2200;};
-  heroCv.addEventListener('pointerup',heroEndDrag);
-  heroCv.addEventListener('pointercancel',heroEndDrag);
-}
-
 function hexA(h,a){const n=parseInt(h.slice(1),16);return `rgba(${(n>>16)&255},${(n>>8)&255},${n&255},${a})`;}
 function quad(pts,fill,stroke,lw){
   if(!pts.every(Boolean))return;
@@ -2055,37 +1854,26 @@ function draw3D(dt){
   /* itens */
   VIS.forEach(v=>{
     const it=v.it,def=ITEM[it.t];
-    const ic=proj({x:it.x+v.ox,y:def.top/2,z:it.z+v.oz},W,H,F);
-    if(!ic)return;
-    const sr2=(def.rad+def.top)*F/ic.z+30;
-    if(ic.x<-sr2||ic.x>W+sr2||ic.y<-sr2||ic.y>H+sr2)return;
     def.parts.forEach(p=>{
       let px=p.x,pz=p.z,py=p.y;
       if(def.person&&it.step!==undefined&&(p.c==='#2B3A4A')){py=p.y+Math.abs(Math.sin(it.step))*0.06;pz=p.z+Math.sin(it.step)*(p.x<0?0.14:-0.14);}
       const cr=Math.cos(it.rot),sr=Math.sin(it.rot);
       const wx=it.x+v.ox+px*cr+pz*sr, wz=it.z+v.oz-px*sr+pz*cr;
-      if(p.cyl){
-        const spx=p.r*F/Math.max(1.5,ic.z);
-        pushCyl(faces,wx,py,wz,p.r,p.l,p.ax,p.c,it.rot,W,H,F,cp3,spx<5?4:(spx<11?6:(spx<26?9:12)));
-      }
-      else pushBox(faces,wx,py,wz,p.w,p.h,p.d,p.c,it.rot,W,H,F,cp3);
+      pushBox(faces,wx,py,wz,p.w,p.h,p.d,p.c,it.rot,W,H,F,cp3);
     });
   });
   faces.sort((a,b)=>b.z-a.z);
   const heavy=faces.length>800;
   g3.strokeStyle='rgba(10,27,42,.14)';g3.lineWidth=.7;
   for(const f of faces){
-    const p=f.pts,n=p.length;
-    let x0=p[0].x,x1=p[0].x,y0=p[0].y,y1=p[0].y;
-    for(let i=1;i<n;i++){
-      if(p[i].x<x0)x0=p[i].x; else if(p[i].x>x1)x1=p[i].x;
-      if(p[i].y<y0)y0=p[i].y; else if(p[i].y>y1)y1=p[i].y;
-    }
+    const p=f.pts;
+    const x0=Math.min(p[0].x,p[1].x,p[2].x,p[3].x), x1=Math.max(p[0].x,p[1].x,p[2].x,p[3].x);
+    const y0=Math.min(p[0].y,p[1].y,p[2].y,p[3].y), y1=Math.max(p[0].y,p[1].y,p[2].y,p[3].y);
     if(x1<-20||x0>W+20||y1<-20||y0>H+20)continue;          /* fora da tela */
     const sw=x1-x0, sh=y1-y0;
     if(sw<1.1&&sh<1.1)continue;                             /* menor que um pixel útil */
     g3.beginPath();g3.moveTo(p[0].x,p[0].y);
-    for(let i=1;i<n;i++)g3.lineTo(p[i].x,p[i].y);
+    for(let i=1;i<4;i++)g3.lineTo(p[i].x,p[i].y);
     g3.closePath();g3.fillStyle=f.c;g3.fill();
     if(!heavy||sw>7||sh>7)g3.stroke();
   }
@@ -2603,7 +2391,6 @@ log('Modelo carregado no cenário Viável. Ajuste as barras e pressione Iniciar.
 window.addEventListener('resize',()=>{renderSlots();drawChart();paintLayout();});
 render();
 requestAnimationFrame(loop);
-heroSetDist();heroPlay();
 </script>
 </body>
 </html>
